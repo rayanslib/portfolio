@@ -20,11 +20,11 @@ export const Header: React.FC<HeaderProps> = ({ onOpenContact }) => {
   }, []);
 
   const navLinks = [
-    { label: 'Selected Works', href: '#projects' },
+    { label: 'Showcase', href: '#projects' },
     { label: 'Services', href: '#services' },
     { label: 'Pricing ($10)', href: '#pricing' },
     { label: 'Process', href: '#process' },
-    { label: 'Client Results', href: '#testimonials' },
+    { label: 'Why SBG', href: '#why-us' },
   ];
 
   return (

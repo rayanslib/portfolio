@@ -1,104 +1,15 @@
 import { Project } from '../types';
 
-export const HERO_IMAGE = '/images/hero_web_showcase.jpg';
 export const X_PROFILE_URL = 'https://x.com/SBGwebsites';
 export const X_HANDLE = '@SBGwebsites';
 
-export const PROJECTS_DATA: Project[] = [
-  {
-    id: 'aether-contractor',
-    title: 'Aether Construction',
-    subtitle: 'Modern Contractor & Architectural Builder Website',
-    category: 'services',
-    categoryLabel: 'Services & Contractor',
-    year: '2025',
-    image: '/images/project_apex_contractor.jpg',
-    client: 'Aether Design Build',
-    deliverables: ['Responsive Website', 'Project Gallery', 'Quote Request Section', 'Mobile Optimization'],
-    techStack: ['Next.js', 'Tailwind CSS', 'TypeScript'],
-    metrics: [
-      { label: 'Mobile Page Load', value: '0.5s', change: 'Sub-second speed' },
-      { label: 'Website Cost', value: '$10', change: 'One-time build fee' },
-      { label: 'Optional Hosting', value: '$15/mo', change: 'Managed cloud' },
-    ],
-    overview: 'A high-impact, professional website built for a construction and remodeling business to display finished projects and book client consultations.',
-    challenge: 'Needed a clean, trustworthy web presence that loads fast on phones without spending hundreds of dollars on agency builders.',
-    solution: 'Coded a modern, mobile-first website with clean photo galleries, clear service descriptions, and quick quote callouts.',
-    featured: true,
-    interactivePreviewType: 'contractor',
-  },
-  {
-    id: 'avenue-partners',
-    title: 'Avenue Advisory',
-    subtitle: 'Corporate Advisory & Management Consulting Website',
-    category: 'business',
-    categoryLabel: 'Business & Corporate',
-    year: '2025',
-    image: '/images/project_solaris_consulting.jpg',
-    client: 'Avenue Strategic Partners',
-    deliverables: ['Corporate Web Layout', 'Practice Areas Grid', 'Team Overview', 'Consultation Booking Callout'],
-    techStack: ['React', 'TypeScript', 'Tailwind CSS'],
-    metrics: [
-      { label: 'Lighthouse Score', value: '100/100', change: 'Verified performance' },
-      { label: 'Build Turnaround', value: '3 Days', change: 'Concept to review' },
-      { label: 'Website Cost', value: '$10', change: 'One-time build fee' },
-    ],
-    overview: 'A sharp, executive corporate website designed for an advisory firm presenting practice areas and consultation options.',
-    challenge: 'Needed an authoritative corporate presence without bloated templates or recurring agency contracts.',
-    solution: 'Built with clean typography, high contrast, and structured service cards that highlight corporate expertise.',
-    featured: true,
-    interactivePreviewType: 'consulting',
-  },
-  {
-    id: 'pulse-metrics',
-    title: 'PulseMetrics',
-    subtitle: 'High-Converting Product Landing Page & Feature Tour',
-    category: 'landing',
-    categoryLabel: 'Landing Page',
-    year: '2025',
-    image: '/images/project_pulse_metrics.jpg',
-    client: 'PulseMetrics Cloud',
-    deliverables: ['Landing Page Layout', 'Interactive Feature Tour', 'Speed Optimization', 'Call-to-Action'],
-    techStack: ['React', 'TypeScript', 'Tailwind CSS'],
-    metrics: [
-      { label: 'Global Edge Speed', value: '0.4s', change: 'Instant delivery' },
-      { label: 'Build Fee', value: '$10', change: 'One-time build' },
-      { label: 'Delivery Time', value: '48h', change: 'Fast turnaround' },
-    ],
-    overview: 'A focused, high-speed single-page website created to communicate software features clearly with interactive tours.',
-    challenge: 'Explaining features in an engaging, human way that visitors understand immediately.',
-    solution: 'Designed an interactive product tour directly in the page with clean cards and clear call-to-actions.',
-    featured: true,
-    interactivePreviewType: 'analytics',
-  },
-  {
-    id: 'verve-studio',
-    title: 'Studio Aeternum',
-    subtitle: 'Creative Portfolio & Editorial Design Showcase',
-    category: 'portfolio',
-    categoryLabel: 'Portfolio & Creative',
-    year: '2024',
-    image: '/images/project_verve_studio.jpg',
-    client: 'Studio Aeternum Group',
-    deliverables: ['Editorial Typography', 'Project Showcase', 'Responsive Mobile Layout', 'Clean Code Handover'],
-    techStack: ['React', 'Tailwind CSS', 'Vite'],
-    metrics: [
-      { label: 'Design Rating', value: '10/10', change: 'Bespoke aesthetic' },
-      { label: 'Build Fee', value: '$10', change: 'One-time build' },
-      { label: 'Hosting', value: 'Optional', change: '$15/mo or self-host' },
-    ],
-    overview: 'A visual portfolio designed for creative directors and agencies to showcase recent work with bold typography.',
-    challenge: 'Displaying heavy visual galleries without slowing down mobile devices.',
-    solution: 'Implemented progressive image rendering and modern CSS grid architecture for smooth 60fps scrolling.',
-    featured: true,
-    interactivePreviewType: 'editorial',
-  },
-];
+// No fake websites — user requested to show "no websites for now"
+export const PROJECTS_DATA: Project[] = [];
 
 export const CLIENT_STATS = [
-  { value: '$10', label: 'Website Build Fee', subtext: 'One-time flat creation cost' },
+  { value: '$10', label: 'Website Build Fee', subtext: 'One-time flat build cost' },
   { value: 'Optional', label: '$15/mo Hosting', subtext: 'Host with us or host yourself' },
-  { value: '2-3 Days', label: 'Fast Delivery', subtext: 'Quick turnaround from DM to preview' },
+  { value: '2-3 Days', label: 'Fast Delivery', subtext: 'Quick turnaround from DM to launch' },
   { value: 'Direct on X', label: '@SBGwebsites', subtext: 'Fast replies & easy ordering' },
 ];
 
@@ -107,7 +18,7 @@ export const SERVICES_DATA = [
     number: '01',
     title: 'Custom Website Design & Coding',
     price: '$10 One-Time',
-    description: 'We code a modern, clean website tailored to your business or personal brand. Hand-crafted with React and Tailwind CSS.',
+    description: 'We code a modern, clean website tailored to your business or personal brand. Hand-crafted with modern React and Tailwind CSS.',
     capabilities: [
       'Clean modern layout customized to your brand',
       '100% Mobile & tablet responsive on all devices',
@@ -146,7 +57,7 @@ export const SERVICES_DATA = [
     number: '04',
     title: 'Self-Hosting / Code Handover',
     price: 'Included Free',
-    description: 'Don\'t want the $15/month hosting? No problem! You receive clean, production-ready code you can host anywhere you prefer.',
+    description: 'Don\'t want the $15/month hosting? No problem! You receive clean, production-ready code you can host anywhere you prefer for $0.',
     capabilities: [
       'Deploy easily to Vercel, Netlify, or your host',
       'Full ownership of your website files',
@@ -162,7 +73,7 @@ export const PROCESS_STEPS = [
     step: '01',
     name: 'Send a DM on X',
     timeline: 'Day 1',
-    description: 'Message @SBGwebsites on X with your business name, what services you offer, and any inspiration sites or photos you like.',
+    description: 'Message @SBGwebsites on X with your business name, what services you offer, and any photos or text you want.',
   },
   {
     step: '02',

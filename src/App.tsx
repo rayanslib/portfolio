@@ -1,8 +1,7 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Header } from './components/Header';
 import { Hero } from './components/Hero';
 import { ProjectsShowcase } from './components/ProjectsShowcase';
-import { ProjectModal } from './components/ProjectModal';
 import { ScopeEstimator } from './components/ScopeEstimator';
 import { ServicesSection } from './components/ServicesSection';
 import { ProcessSection } from './components/ProcessSection';
@@ -10,11 +9,8 @@ import { TestimonialsSection } from './components/TestimonialsSection';
 import { ContactSection } from './components/ContactSection';
 import { FaqSection } from './components/FaqSection';
 import { Footer } from './components/Footer';
-import { Project } from './types';
 
 export default function App() {
-  const [selectedProject, setSelectedProject] = useState<Project | null>(null);
-
   const scrollToSection = (id: string) => {
     const el = document.getElementById(id);
     if (el) {
@@ -31,14 +27,14 @@ export default function App() {
       />
 
       <main className="flex-1">
-        {/* Split Screen Hero with Interactive Device Bezel */}
+        {/* Split Screen Hero with $10 Deal Card */}
         <Hero
           onOpenPricing={() => scrollToSection('pricing')}
           onExploreProjects={() => scrollToSection('projects')}
         />
 
-        {/* Selected Works Showcase (Zero E-Commerce) */}
-        <ProjectsShowcase onSelectProject={(project) => setSelectedProject(project)} />
+        {/* Client Showcase (Honest "No websites for now" state) */}
+        <ProjectsShowcase />
 
         {/* Transparent $10 Website & Optional $15/mo Hosting Calculator */}
         <ScopeEstimator />
@@ -61,12 +57,6 @@ export default function App() {
 
       {/* Footer with clean links and X account only */}
       <Footer />
-
-      {/* Interactive Live Demo Modal */}
-      <ProjectModal
-        project={selectedProject}
-        onClose={() => setSelectedProject(null)}
-      />
     </div>
   );
 }

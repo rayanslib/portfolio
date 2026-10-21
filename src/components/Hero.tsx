@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
-import { ArrowDown, Sparkles, Monitor, Smartphone, CheckCircle, ExternalLink } from 'lucide-react';
-import { HERO_IMAGE, CLIENT_STATS, X_PROFILE_URL, X_HANDLE } from '../data/portfolioData';
+import React from 'react';
+import { Sparkles, CheckCircle, ArrowUpRight, ShieldCheck, Zap, Globe, Smartphone, Code2 } from 'lucide-react';
+import { CLIENT_STATS, X_PROFILE_URL, X_HANDLE } from '../data/portfolioData';
 
 interface HeroProps {
   onOpenPricing: () => void;
@@ -8,9 +8,6 @@ interface HeroProps {
 }
 
 export const Hero: React.FC<HeroProps> = ({ onOpenPricing, onExploreProjects }) => {
-  const [activeDeviceView, setActiveDeviceView] = useState<'desktop' | 'mobile'>('desktop');
-  const [imgError, setImgError] = useState(false);
-
   return (
     <section className="relative pt-32 pb-20 lg:pt-36 lg:pb-24 overflow-hidden border-b border-neutral-900">
       {/* Background radial glow */}
@@ -20,10 +17,10 @@ export const Hero: React.FC<HeroProps> = ({ onOpenPricing, onExploreProjects }) 
       />
 
       <div className="max-w-7xl mx-auto px-6 lg:px-8">
-        {/* Split Grid: Left Typography / Right Visual Mockup */}
+        {/* Split Grid: Left Typography / Right $10 Package Showcase Card */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center mb-16">
           {/* Left Column: Typographic Hierarchy */}
-          <div className="lg:col-span-6 xl:col-span-6 flex flex-col justify-center">
+          <div className="lg:col-span-7 flex flex-col justify-center">
             {/* Unboxed Kicker metadata */}
             <div className="flex flex-wrap items-center gap-x-2 gap-y-1 text-xs font-medium text-neutral-400 mb-4 tracking-wide">
               <span className="text-amber-400 font-semibold">SBG Websites</span>
@@ -54,20 +51,22 @@ export const Hero: React.FC<HeroProps> = ({ onOpenPricing, onExploreProjects }) 
 
             {/* Primary Action Buttons */}
             <div className="flex flex-wrap items-center gap-3.5 mb-8">
-              <button
-                onClick={onExploreProjects}
-                className="px-6 py-3 text-sm font-semibold text-neutral-950 bg-amber-400 hover:bg-amber-300 rounded-lg transition-colors flex items-center gap-2 shadow-lg shadow-amber-400/10 cursor-pointer"
+              <a
+                href={X_PROFILE_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="px-6 py-3.5 text-sm font-bold text-neutral-950 bg-amber-400 hover:bg-amber-300 rounded-lg transition-colors flex items-center gap-2 shadow-lg shadow-amber-400/10 cursor-pointer"
               >
-                <span>See Client Websites</span>
-                <ArrowDown className="w-4 h-4" />
-              </button>
+                <span>Get a $10 Website on X</span>
+                <ArrowUpRight className="w-4 h-4" />
+              </a>
 
               <button
                 onClick={onOpenPricing}
-                className="px-5 py-3 text-sm font-medium text-neutral-200 hover:text-white bg-neutral-900/90 hover:bg-neutral-800 border border-neutral-800 rounded-lg transition-colors flex items-center gap-2 cursor-pointer"
+                className="px-5 py-3.5 text-sm font-medium text-neutral-200 hover:text-white bg-neutral-900/90 hover:bg-neutral-800 border border-neutral-800 rounded-lg transition-colors flex items-center gap-2 cursor-pointer"
               >
                 <Sparkles className="w-4 h-4 text-amber-400" />
-                <span>$10 Offer & Hosting Plan</span>
+                <span>See Pricing Calculator</span>
               </button>
             </div>
 
@@ -78,141 +77,71 @@ export const Hero: React.FC<HeroProps> = ({ onOpenPricing, onExploreProjects }) 
                 No E-Commerce Bloat
               </span>
               <span aria-hidden="true" className="hidden sm:inline">·</span>
-              <span>Fast 3-day turnaround</span>
+              <span>Fast 2-3 day turnaround</span>
               <span aria-hidden="true" className="hidden sm:inline">·</span>
-              <span>DM on X @SBGwebsites to start</span>
+              <span>Direct order via X DM @SBGwebsites</span>
             </div>
           </div>
 
-          {/* Right Column: Interactive Bezel Mockup with Device Viewport Switcher */}
-          <div className="lg:col-span-6 xl:col-span-6 flex flex-col items-center">
-            {/* Viewport switcher segmented control */}
-            <div className="flex items-center justify-between w-full max-w-md mb-3 px-1">
-              <span className="text-xs font-mono text-neutral-400 uppercase tracking-wider">
-                Live Website Showcase
-              </span>
-              <div className="inline-flex items-center gap-1 p-1 bg-neutral-900 border border-neutral-800 rounded-lg">
-                <button
-                  type="button"
-                  onClick={() => setActiveDeviceView('desktop')}
-                  className={`flex items-center gap-1.5 px-3 py-1 text-xs font-medium rounded-md transition-colors ${
-                    activeDeviceView === 'desktop'
-                      ? 'bg-neutral-800 text-white shadow-sm'
-                      : 'text-neutral-400 hover:text-white'
-                  }`}
-                  aria-label="View desktop showcase layout"
-                >
-                  <Monitor className="w-3.5 h-3.5" />
-                  <span>Desktop</span>
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setActiveDeviceView('mobile')}
-                  className={`flex items-center gap-1.5 px-3 py-1 text-xs font-medium rounded-md transition-colors ${
-                    activeDeviceView === 'mobile'
-                      ? 'bg-neutral-800 text-white shadow-sm'
-                      : 'text-neutral-400 hover:text-white'
-                  }`}
-                  aria-label="View mobile showcase layout"
-                >
-                  <Smartphone className="w-3.5 h-3.5" />
-                  <span>Mobile</span>
-                </button>
+          {/* Right Column: Clean $10 Website Deal Card */}
+          <div className="lg:col-span-5 flex justify-center">
+            <div className="w-full max-w-md rounded-2xl bg-neutral-900 border border-neutral-800 p-6 sm:p-7 shadow-2xl relative overflow-hidden">
+              <div className="flex items-center justify-between pb-4 border-b border-neutral-800 mb-5">
+                <div className="flex items-center gap-2">
+                  <span className="w-8 h-8 rounded-lg bg-amber-400/10 border border-amber-400/30 flex items-center justify-center text-amber-400">
+                    <Globe className="w-4 h-4" />
+                  </span>
+                  <div>
+                    <span className="text-xs font-mono uppercase tracking-wider text-neutral-400 block">
+                      Launch Package
+                    </span>
+                    <span className="text-sm font-bold text-white font-display">
+                      Custom Website Deal
+                    </span>
+                  </div>
+                </div>
+                <div className="text-right">
+                  <span className="text-2xl font-extrabold text-amber-400 font-display tabular-nums">
+                    $10
+                  </span>
+                  <span className="text-[10px] text-neutral-400 block">one-time build</span>
+                </div>
               </div>
-            </div>
 
-            {/* Device Container Frame */}
-            <div className="w-full flex justify-center">
-              {activeDeviceView === 'desktop' ? (
-                /* Desktop Browser Frame */
-                <div className="w-full max-w-xl rounded-xl border border-neutral-800 bg-neutral-900/90 shadow-2xl overflow-hidden transition-all duration-300">
-                  {/* Browser Window Header */}
-                  <div className="flex items-center justify-between px-4 py-2.5 bg-neutral-900 border-b border-neutral-800">
-                    <div className="flex items-center gap-1.5">
-                      <div className="w-2.5 h-2.5 rounded-full bg-neutral-700" />
-                      <div className="w-2.5 h-2.5 rounded-full bg-neutral-700" />
-                      <div className="w-2.5 h-2.5 rounded-full bg-neutral-700" />
-                    </div>
-                    <div className="px-3 py-1 rounded bg-neutral-950 text-neutral-400 text-xs font-mono flex items-center gap-1.5 border border-neutral-800/80 max-w-[260px] truncate">
-                      <span className="w-2 h-2 rounded-full bg-emerald-500/80 inline-block" />
-                      <span className="truncate">https://sbgwebsites.com/client-demo</span>
-                    </div>
-                    <span className="text-[11px] font-mono text-amber-400">$10 Build</span>
-                  </div>
-
-                  {/* Browser Content with Vercel-resilient Fallback */}
-                  <div className="relative aspect-[16/10] bg-neutral-950 overflow-hidden group">
-                    {!imgError ? (
-                      <img
-                        src={HERO_IMAGE}
-                        alt="Modern business websites built by SBG Websites"
-                        onError={() => setImgError(true)}
-                        className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                        loading="eager"
-                      />
-                    ) : (
-                      /* Styled CSS/SVG Fallback Container */
-                      <div className="w-full h-full bg-gradient-to-br from-neutral-900 via-neutral-950 to-neutral-900 flex flex-col items-center justify-center p-6 text-center">
-                        <div className="w-12 h-12 rounded-xl bg-amber-400/10 border border-amber-400/30 flex items-center justify-center text-amber-400 mb-3">
-                          <Monitor className="w-6 h-6" />
-                        </div>
-                        <h3 className="text-lg font-bold text-white mb-1">SBG Websites Studio</h3>
-                        <p className="text-xs text-neutral-400 max-w-xs">Custom business & contractor websites for $10 with fast $15/mo hosting.</p>
-                      </div>
-                    )}
-                    <div className="absolute inset-0 bg-gradient-to-t from-neutral-950/85 via-transparent to-transparent pointer-events-none" />
-
-                    {/* Floating metadata callout */}
-                    <div className="absolute bottom-3 left-3 right-3 p-3 rounded-lg bg-neutral-900/90 backdrop-blur-md border border-neutral-700/60 flex items-center justify-between text-xs text-neutral-200">
-                      <div>
-                        <p className="font-semibold text-white">Custom Business & Contractor Websites</p>
-                        <p className="text-neutral-400 text-[11px]">$10 One-Time · $15/mo Cloud Hosting · 100 Speed</p>
-                      </div>
-                      <button
-                        onClick={onExploreProjects}
-                        className="px-2.5 py-1 text-[11px] font-medium bg-amber-400 text-neutral-950 rounded hover:bg-amber-300 transition-colors flex items-center gap-1 cursor-pointer"
-                      >
-                        Inspect
-                        <ExternalLink className="w-3 h-3" />
-                      </button>
-                    </div>
-                  </div>
+              {/* What's included checklist */}
+              <div className="space-y-3 mb-6 text-xs text-neutral-300">
+                <div className="flex items-center gap-2.5">
+                  <Code2 className="w-4 h-4 text-amber-400 shrink-0" />
+                  <span>Custom modern React + Tailwind website</span>
                 </div>
-              ) : (
-                /* Mobile Phone Frame */
-                <div className="w-full max-w-[280px] rounded-[36px] border-[6px] border-neutral-800 bg-neutral-950 shadow-2xl p-2 transition-all duration-300">
-                  <div className="relative aspect-[9/17] rounded-[28px] overflow-hidden bg-neutral-900 border border-neutral-800/80">
-                    <div className="absolute top-2 left-1/2 -translate-x-1/2 w-16 h-3.5 bg-neutral-950 rounded-full z-10" />
-
-                    {!imgError ? (
-                      <img
-                        src={HERO_IMAGE}
-                        alt="Mobile responsive web experience preview"
-                        onError={() => setImgError(true)}
-                        className="w-full h-full object-cover"
-                        loading="lazy"
-                      />
-                    ) : (
-                      <div className="w-full h-full bg-neutral-900 flex flex-col items-center justify-center p-4 text-center">
-                        <Smartphone className="w-8 h-8 text-amber-400 mb-2" />
-                        <p className="text-xs font-bold text-white">Mobile Architecture</p>
-                      </div>
-                    )}
-                    <div className="absolute inset-0 bg-gradient-to-t from-neutral-950 via-neutral-950/40 to-transparent" />
-
-                    <div className="absolute bottom-4 left-3 right-3 text-center">
-                      <p className="text-xs font-bold text-white mb-0.5">100% Mobile Ready</p>
-                      <p className="text-[11px] text-neutral-400 mb-2.5">Thumb navigation & fast sub-second loading</p>
-                      <button
-                        onClick={onExploreProjects}
-                        className="w-full py-1.5 text-xs font-semibold bg-amber-400 text-neutral-950 rounded-lg cursor-pointer"
-                      >
-                        Browse Client Demos
-                      </button>
-                    </div>
-                  </div>
+                <div className="flex items-center gap-2.5">
+                  <Smartphone className="w-4 h-4 text-amber-400 shrink-0" />
+                  <span>100% mobile-friendly on all phones & tablets</span>
                 </div>
-              )}
+                <div className="flex items-center gap-2.5">
+                  <Zap className="w-4 h-4 text-emerald-400 shrink-0" />
+                  <span>Ready in 2 to 3 business days</span>
+                </div>
+                <div className="flex items-center gap-2.5">
+                  <ShieldCheck className="w-4 h-4 text-emerald-400 shrink-0" />
+                  <span>Hosting is optional (+$15/mo or self-host for $0)</span>
+                </div>
+              </div>
+
+              {/* Direct X Action Link */}
+              <a
+                href={X_PROFILE_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-full py-3 px-4 text-xs font-bold text-neutral-950 bg-amber-400 hover:bg-amber-300 rounded-xl transition-colors flex items-center justify-center gap-2 shadow-lg shadow-amber-400/15 cursor-pointer"
+              >
+                <span>Order on X ({X_HANDLE})</span>
+                <ArrowUpRight className="w-4 h-4" />
+              </a>
+
+              <div className="mt-3 text-center text-[11px] text-neutral-400">
+                Send a quick DM with your business name to get started.
+              </div>
             </div>
           </div>
         </div>
