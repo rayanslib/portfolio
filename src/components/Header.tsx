@@ -47,7 +47,7 @@ export const Header: React.FC<HeaderProps> = ({ onOpenContact }) => {
               <Globe className="w-4 h-4" />
             </span>
             <span className="font-display tracking-tight text-base lg:text-lg">
-              SBG Websites <span className="text-neutral-500 font-normal">/ by Rayan</span>
+              SBG Websites
             </span>
           </a>
 

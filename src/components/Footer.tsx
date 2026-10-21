@@ -17,7 +17,7 @@ export const Footer: React.FC = () => {
               <Globe className="w-3.5 h-3.5" />
             </span>
             <span className="font-display font-bold text-white text-base">
-              SBG Websites <span className="text-neutral-500 font-normal">/ by Rayan</span>
+              SBG Websites
             </span>
           </div>
 
