@@ -14,31 +14,6 @@ import { Project } from './types';
 
 export default function App() {
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
-  const [inquiryMessage, setInquiryMessage] = useState('');
-  const [inquiryBudget, setInquiryBudget] = useState('');
-
-  // Handle transfer from Pricing Estimator to Contact Form
-  const handleApplyScope = (scopeSummary: string, budgetSummary: string) => {
-    setInquiryMessage(
-      `Hello Rayan, I would like to get my website started: ${scopeSummary}. Total: ${budgetSummary}.`
-    );
-    setInquiryBudget(budgetSummary);
-    const contactElem = document.getElementById('contact');
-    if (contactElem) {
-      contactElem.scrollIntoView({ behavior: 'smooth' });
-    }
-  };
-
-  // Handle request for similar project from Project Modal
-  const handleRequestSimilar = (projectTitle: string) => {
-    setInquiryMessage(
-      `Hello Rayan, I saw the ${projectTitle} website on SBG Websites and would like to build a similar high-performance site for my business ($10 build + $15/mo hosting).`
-    );
-    const contactElem = document.getElementById('contact');
-    if (contactElem) {
-      contactElem.scrollIntoView({ behavior: 'smooth' });
-    }
-  };
 
   const scrollToSection = (id: string) => {
     const el = document.getElementById(id);
@@ -62,39 +37,35 @@ export default function App() {
           onExploreProjects={() => scrollToSection('projects')}
         />
 
-        {/* Selected Works & Client Website Showcase (Zero E-Commerce) */}
+        {/* Selected Works Showcase (Zero E-Commerce) */}
         <ProjectsShowcase onSelectProject={(project) => setSelectedProject(project)} />
 
-        {/* Transparent $10 Website & $15/mo Hosting Pricing Calculator */}
-        <ScopeEstimator onApplyScopeToInquiry={handleApplyScope} />
+        {/* Transparent $10 Website & Optional $15/mo Hosting Calculator */}
+        <ScopeEstimator />
 
-        {/* Services & Capabilities */}
+        {/* Services & Deliverables */}
         <ServicesSection />
 
-        {/* Process & Turnaround */}
+        {/* Simple 3-Day Turnaround Process */}
         <ProcessSection />
 
-        {/* Client Endorsements & Proof */}
+        {/* Honest Value Pillars & Deliverables (Zero Fake Comments) */}
         <TestimonialsSection />
 
-        {/* Project Inquiry & X (@SBGwebsites) Direct Contact Form */}
-        <ContactSection
-          initialMessage={inquiryMessage}
-          initialBudget={inquiryBudget}
-        />
+        {/* Direct X (@SBGwebsites) DM Ordering Section */}
+        <ContactSection />
 
         {/* Frequently Asked Questions */}
         <FaqSection />
       </main>
 
-      {/* Footer with clean links and X account */}
+      {/* Footer with clean links and X account only */}
       <Footer />
 
-      {/* Case Study & Interactive Live Demo Modal */}
+      {/* Interactive Live Demo Modal */}
       <ProjectModal
         project={selectedProject}
         onClose={() => setSelectedProject(null)}
-        onRequestSimilar={handleRequestSimilar}
       />
     </div>
   );

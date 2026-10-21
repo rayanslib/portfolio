@@ -6,13 +6,6 @@ export interface ProjectMetric {
   change?: string;
 }
 
-export interface ClientTestimonial {
-  quote: string;
-  author: string;
-  role: string;
-  company: string;
-}
-
 export interface Project {
   id: string;
   title: string;
@@ -29,23 +22,12 @@ export interface Project {
   challenge: string;
   solution: string;
   featured: boolean;
-  testimonial?: ClientTestimonial;
   interactivePreviewType: 'contractor' | 'analytics' | 'editorial' | 'consulting';
 }
 
 export interface PricingState {
   websiteType: 'landing' | 'business' | 'portfolio' | 'services';
+  includeHosting: boolean;
   hostingBilling: 'monthly' | 'yearly';
   extraPages: number;
-  includeSeo: boolean;
-  includeContactForm: boolean;
-}
-
-export interface InquiryFormState {
-  name: string;
-  email: string;
-  xHandle?: string;
-  company: string;
-  projectType: string;
-  message: string;
 }

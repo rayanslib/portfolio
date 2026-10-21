@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Check, ArrowRight, ShieldCheck, Zap, Server, Globe } from 'lucide-react';
+import { Check, ArrowRight, ShieldCheck, Zap, Globe, ArrowUpRight } from 'lucide-react';
 import { PricingState } from '../types';
 import {
   WEBSITE_TYPES,
@@ -9,28 +9,15 @@ import {
 } from '../utils/estimator';
 import { X_PROFILE_URL, X_HANDLE } from '../data/portfolioData';
 
-interface ScopeEstimatorProps {
-  onApplyScopeToInquiry: (scopeSummary: string, estimatedBudget: string) => void;
-}
-
-export const ScopeEstimator: React.FC<ScopeEstimatorProps> = ({ onApplyScopeToInquiry }) => {
+export const ScopeEstimator: React.FC = () => {
   const [pricingState, setPricingState] = useState<PricingState>({
     websiteType: 'business',
+    includeHosting: false, // Default optional!
     hostingBilling: 'monthly',
     extraPages: 0,
-    includeSeo: true,
-    includeContactForm: true,
   });
 
   const pricing = calculatePricing(pricingState);
-
-  const handleClaim = () => {
-    const typeLabel = WEBSITE_TYPES[pricingState.websiteType].label;
-    const summary = `${typeLabel} ($10 build) with ${pricingState.hostingBilling} hosting ($${pricing.hostingPrice}${pricing.hostingPeriodLabel}) and ${pricingState.extraPages} additional pages.`;
-    const budgetSummary = `$${pricing.totalUpfront} upfront ($10 website + $${pricing.hostingPrice} hosting)`;
-    onApplyScopeToInquiry(summary, budgetSummary);
-  };
-
   const types = Object.keys(WEBSITE_TYPES) as (keyof typeof WEBSITE_TYPES)[];
 
   return (
@@ -39,26 +26,26 @@ export const ScopeEstimator: React.FC<ScopeEstimatorProps> = ({ onApplyScopeToIn
         {/* Section Header */}
         <div className="text-center max-w-2xl mx-auto mb-16">
           <div className="flex items-center justify-center gap-2 text-xs font-semibold text-neutral-400 mb-2.5 tracking-wider uppercase">
-            <span className="text-amber-400 font-bold">$10 Custom Website</span>
+            <span className="text-amber-400 font-bold">$10 Website Build</span>
             <span aria-hidden="true">·</span>
-            <span>$15/mo Cloud Hosting</span>
+            <span>Optional $15/mo Cloud Hosting</span>
           </div>
           <h2 className="text-3xl sm:text-4xl font-display font-bold text-white tracking-tight text-balance mb-4">
-            Simple, honest pricing. No agency markups.
+            Transparent pricing. Just $10 to build.
           </h2>
           <p className="text-sm text-neutral-400 leading-relaxed">
-            Get a high-performance website custom-built for just <strong className="text-white">$10</strong> with our fast, reliable <strong className="text-white">$15/month</strong> managed cloud hosting service.
+            Get your custom website built for <strong className="text-white">$10</strong>. Our $15/month managed cloud hosting is completely <strong className="text-amber-400">optional</strong>—host with us or take the code and host it yourself for free.
           </p>
         </div>
 
         {/* Pricing Layout */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-          {/* Left: Website & Plan Configurator (7 cols) */}
+          {/* Left: Configurator (7 cols) */}
           <div className="lg:col-span-7 flex flex-col gap-6">
             {/* Step 1: Website Category Selection */}
             <div>
-              <span className="text-xs font-mono uppercase tracking-wider text-amber-400 block mb-3">
-                01. Select Your Website Type ($10 Flat Build)
+              <span className="text-xs font-mono uppercase tracking-wider text-amber-400 block mb-3 font-semibold">
+                01. Select Your Website Style ($10 Flat Build)
               </span>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
@@ -93,59 +80,86 @@ export const ScopeEstimator: React.FC<ScopeEstimatorProps> = ({ onApplyScopeToIn
               </div>
             </div>
 
-            {/* Step 2: Hosting Service Billing */}
-            <div>
-              <span className="text-xs font-mono uppercase tracking-wider text-amber-400 block mb-3">
-                02. Managed Cloud Hosting & Maintenance Plan
-              </span>
+            {/* Step 2: OPTIONAL Hosting Toggle */}
+            <div className="p-5 rounded-2xl bg-neutral-900/50 border border-neutral-800">
+              <div className="flex items-start justify-between gap-4 mb-4">
+                <div>
+                  <div className="flex items-center gap-2 mb-1">
+                    <span className="text-sm font-bold text-white">
+                      Managed Cloud Hosting & Maintenance
+                    </span>
+                    <span className="text-[10px] uppercase font-mono px-2 py-0.5 rounded bg-amber-400/10 text-amber-300 border border-amber-400/30">
+                      Optional
+                    </span>
+                  </div>
+                  <p className="text-xs text-neutral-400 leading-relaxed">
+                    Leave unselected if you prefer to host it yourself for $0 (we hand over the complete code). Or check this box if you want us to handle fast cloud servers, free SSL, and updates for $15/month.
+                  </p>
+                </div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                {/* Big Interactive Toggle Switch */}
                 <button
                   type="button"
-                  onClick={() => setPricingState({ ...pricingState, hostingBilling: 'monthly' })}
-                  className={`p-4 rounded-xl border text-left transition-all cursor-pointer ${
-                    pricingState.hostingBilling === 'monthly'
-                      ? 'bg-neutral-900 border-amber-400 shadow-md ring-1 ring-amber-400/40'
-                      : 'bg-neutral-900/40 border-neutral-800 hover:border-neutral-700'
+                  onClick={() =>
+                    setPricingState((prev) => ({
+                      ...prev,
+                      includeHosting: !prev.includeHosting,
+                    }))
+                  }
+                  className={`relative inline-flex h-7 w-12 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none ${
+                    pricingState.includeHosting ? 'bg-amber-400' : 'bg-neutral-800'
                   }`}
+                  role="switch"
+                  aria-checked={pricingState.includeHosting}
                 >
-                  <div className="flex items-center justify-between mb-1">
-                    <span className="text-sm font-bold text-white">Monthly Hosting Plan</span>
-                    <span className="text-sm font-bold text-amber-400 font-mono">$15 / mo</span>
-                  </div>
-                  <p className="text-xs text-neutral-400">
-                    Billed month-to-month. Cancel anytime. Full cloud hosting, SSL, updates & 99.9% uptime.
-                  </p>
-                </button>
-
-                <button
-                  type="button"
-                  onClick={() => setPricingState({ ...pricingState, hostingBilling: 'yearly' })}
-                  className={`p-4 rounded-xl border text-left transition-all cursor-pointer ${
-                    pricingState.hostingBilling === 'yearly'
-                      ? 'bg-neutral-900 border-amber-400 shadow-md ring-1 ring-amber-400/40'
-                      : 'bg-neutral-900/40 border-neutral-800 hover:border-neutral-700'
-                  }`}
-                >
-                  <div className="flex items-center justify-between mb-1">
-                    <span className="text-sm font-bold text-white">Annual Hosting (Save $30)</span>
-                    <span className="text-sm font-bold text-amber-400 font-mono">$150 / yr</span>
-                  </div>
-                  <p className="text-xs text-neutral-400">
-                    Pay upfront for the entire year. Get 2 months free hosting + priority maintenance.
-                  </p>
+                  <span
+                    className={`pointer-events-none inline-block h-6 w-6 transform rounded-full bg-neutral-950 shadow ring-0 transition duration-200 ease-in-out ${
+                      pricingState.includeHosting ? 'translate-x-5' : 'translate-x-0'
+                    }`}
+                  />
                 </button>
               </div>
+
+              {/* If hosting is active, show billing period option */}
+              {pricingState.includeHosting && (
+                <div className="pt-4 border-t border-neutral-800/80 flex flex-col sm:flex-row gap-3">
+                  <button
+                    type="button"
+                    onClick={() => setPricingState({ ...pricingState, hostingBilling: 'monthly' })}
+                    className={`flex-1 p-3 rounded-xl border text-left transition-colors cursor-pointer ${
+                      pricingState.hostingBilling === 'monthly'
+                        ? 'bg-neutral-900 border-amber-400 text-white'
+                        : 'bg-neutral-950 border-neutral-800 text-neutral-400'
+                    }`}
+                  >
+                    <span className="text-xs font-bold block mb-0.5">Monthly Billing</span>
+                    <span className="text-sm font-mono text-amber-400 font-bold">$15 / month</span>
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={() => setPricingState({ ...pricingState, hostingBilling: 'yearly' })}
+                    className={`flex-1 p-3 rounded-xl border text-left transition-colors cursor-pointer ${
+                      pricingState.hostingBilling === 'yearly'
+                        ? 'bg-neutral-900 border-amber-400 text-white'
+                        : 'bg-neutral-950 border-neutral-800 text-neutral-400'
+                    }`}
+                  >
+                    <span className="text-xs font-bold block mb-0.5">Annual Billing (2 Months Free)</span>
+                    <span className="text-sm font-mono text-amber-400 font-bold">$150 / year</span>
+                  </button>
+                </div>
+              )}
             </div>
 
             {/* Step 3: Optional Additional Pages */}
             <div className="p-4 rounded-xl bg-neutral-900/40 border border-neutral-800 flex items-center justify-between">
               <div>
                 <span className="text-xs font-semibold text-white block mb-0.5">
-                  Need extra sub-pages?
+                  Extra Sub-Pages
                 </span>
                 <span className="text-[11px] text-neutral-400">
-                  Add more detailed service or location pages (+$5 each)
+                  Need extra dedicated pages? (+$5 per additional page)
                 </span>
               </div>
               <div className="flex items-center gap-3">
@@ -186,10 +200,10 @@ export const ScopeEstimator: React.FC<ScopeEstimatorProps> = ({ onApplyScopeToIn
               <div>
                 <div className="flex items-center justify-between mb-4">
                   <span className="text-xs font-mono text-neutral-400 uppercase tracking-wider">
-                    Total Investment Summary
+                    Total Pricing Breakdown
                   </span>
                   <span className="text-xs font-semibold text-emerald-400 bg-emerald-950/80 px-2 py-0.5 rounded border border-emerald-800/80">
-                    Live Launch Package
+                    No Hidden Fees
                   </span>
                 </div>
 
@@ -201,15 +215,26 @@ export const ScopeEstimator: React.FC<ScopeEstimatorProps> = ({ onApplyScopeToIn
                       ${pricing.oneTimeWebsitePrice} <span className="text-xs font-normal text-neutral-400">one-time</span>
                     </span>
                   </div>
+
                   <div className="flex items-baseline justify-between mb-3">
-                    <span className="text-xs text-neutral-400">Cloud Hosting & Maintenance:</span>
-                    <span className="text-base font-bold text-white tabular-nums">
-                      ${pricing.hostingPrice} <span className="text-xs font-normal text-neutral-400">{pricing.hostingPeriodLabel}</span>
+                    <span className="text-xs text-neutral-400">Cloud Hosting:</span>
+                    <span className="text-sm font-bold text-white tabular-nums">
+                      {pricing.isHostingIncluded ? (
+                        <>
+                          ${pricing.hostingPrice}{' '}
+                          <span className="text-xs font-normal text-neutral-400">
+                            {pricing.hostingPeriodLabel}
+                          </span>
+                        </>
+                      ) : (
+                        <span className="text-neutral-400 font-normal">$0 (Self-Hosted)</span>
+                      )}
                     </span>
                   </div>
+
                   <div className="pt-2 border-t border-neutral-800 flex items-baseline justify-between text-xs">
-                    <span className="text-neutral-300 font-medium">Total to launch today:</span>
-                    <span className="text-base font-bold text-emerald-400 tabular-nums">
+                    <span className="text-neutral-300 font-medium">Total to get started:</span>
+                    <span className="text-2xl font-bold text-emerald-400 tabular-nums">
                       ${pricing.totalUpfront}
                     </span>
                   </div>
@@ -219,56 +244,43 @@ export const ScopeEstimator: React.FC<ScopeEstimatorProps> = ({ onApplyScopeToIn
                 <div className="space-y-2 mb-6 text-xs text-neutral-300">
                   <div className="flex items-center gap-2">
                     <Check className="w-4 h-4 text-emerald-400 shrink-0" />
-                    <span>Custom website designed for your business (No e-commerce bloat)</span>
+                    <span>Hand-crafted custom website (No bloated templates)</span>
                   </div>
                   <div className="flex items-center gap-2">
                     <Check className="w-4 h-4 text-emerald-400 shrink-0" />
-                    <span>Fast global cloud hosting with 99.9% uptime</span>
+                    <span>100% Mobile & phone responsive design</span>
                   </div>
                   <div className="flex items-center gap-2">
                     <Check className="w-4 h-4 text-emerald-400 shrink-0" />
-                    <span>Free SSL Security Certificate (HTTPS)</span>
+                    <span>Full source code ownership (host anywhere)</span>
                   </div>
                   <div className="flex items-center gap-2">
                     <Check className="w-4 h-4 text-emerald-400 shrink-0" />
-                    <span>100% Mobile & tablet responsive on all devices</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <Check className="w-4 h-4 text-emerald-400 shrink-0" />
-                    <span>Lead generation contact form with email notifications</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <Check className="w-4 h-4 text-emerald-400 shrink-0" />
-                    <span>Ongoing content updates and technical maintenance</span>
+                    <span>
+                      {pricing.isHostingIncluded
+                        ? 'Full managed cloud hosting & updates included ($15/mo)'
+                        : 'Hosting is optional — self-host anytime for free'}
+                    </span>
                   </div>
                 </div>
 
-                {/* Quick Trust Bar */}
+                {/* Guarantee callout */}
                 <div className="flex items-center gap-2 p-3 bg-neutral-950/60 rounded-lg border border-neutral-800/80 mb-6 text-[11px] text-neutral-400">
                   <ShieldCheck className="w-4 h-4 text-amber-400 shrink-0" />
-                  <span>
-                    Turnaround: ~{pricing.turnaroundDays} Days. Or DM on X{' '}
-                    <a
-                      href={X_PROFILE_URL}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-amber-400 hover:underline font-mono"
-                    >
-                      {X_HANDLE}
-                    </a>
-                  </span>
+                  <span>Ready in 2-3 business days. Order directly on X {X_HANDLE}.</span>
                 </div>
               </div>
 
-              {/* Action Button */}
-              <button
-                type="button"
-                onClick={handleClaim}
-                className="w-full py-3.5 px-4 text-xs font-semibold text-neutral-950 bg-amber-400 hover:bg-amber-300 rounded-lg transition-colors flex items-center justify-center gap-2 shadow-lg shadow-amber-400/10 cursor-pointer"
+              {/* Direct X DM Action Button */}
+              <a
+                href={X_PROFILE_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-full py-3.5 px-4 text-xs font-bold text-neutral-950 bg-amber-400 hover:bg-amber-300 rounded-lg transition-colors flex items-center justify-center gap-2 shadow-lg shadow-amber-400/10 cursor-pointer"
               >
-                <span>Get My $10 Website Now</span>
-                <ArrowRight className="w-4 h-4" />
-              </button>
+                <span>Order on X for ${pricing.totalUpfront}</span>
+                <ArrowUpRight className="w-4 h-4" />
+              </a>
             </div>
           </div>
         </div>

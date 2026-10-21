@@ -28,9 +28,9 @@ export const Hero: React.FC<HeroProps> = ({ onOpenPricing, onExploreProjects }) 
             <div className="flex flex-wrap items-center gap-x-2 gap-y-1 text-xs font-medium text-neutral-400 mb-4 tracking-wide">
               <span className="text-amber-400 font-semibold">SBG Websites</span>
               <span aria-hidden="true">·</span>
-              <span>$10 Website Build</span>
+              <span>$10 Custom Website</span>
               <span aria-hidden="true">·</span>
-              <span>$15/mo Cloud Hosting</span>
+              <span>Optional $15/mo Cloud Hosting</span>
               <span aria-hidden="true">·</span>
               <a
                 href={X_PROFILE_URL}
@@ -49,7 +49,7 @@ export const Hero: React.FC<HeroProps> = ({ onOpenPricing, onExploreProjects }) 
 
             {/* Lead copy */}
             <p className="text-base sm:text-lg text-neutral-300 leading-relaxed mb-8 max-w-xl">
-              Professional, modern websites built for local contractors, business owners, agencies, and personal brands. Just <strong className="text-white">$10</strong> for your custom website build and <strong className="text-white">$15/month</strong> for full cloud hosting, SSL, and maintenance.
+              Professional, modern websites built for local contractors, business owners, agencies, and personal brands. Just <strong className="text-white">$10</strong> for your custom website build, with <strong className="text-amber-400">optional $15/month</strong> managed cloud hosting.
             </p>
 
             {/* Primary Action Buttons */}

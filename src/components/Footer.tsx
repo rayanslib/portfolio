@@ -1,6 +1,6 @@
 import React from 'react';
 import { Globe, ArrowUp } from 'lucide-react';
-import { X_PROFILE_URL, X_HANDLE, CONTACT_EMAIL } from '../data/portfolioData';
+import { X_PROFILE_URL, X_HANDLE } from '../data/portfolioData';
 
 export const Footer: React.FC = () => {
   const scrollToTop = () => {
@@ -35,8 +35,11 @@ export const Footer: React.FC = () => {
             <a href="#process" className="hover:text-white transition-colors">
               Process
             </a>
+            <a href="#why-us" className="hover:text-white transition-colors">
+              Deliverables
+            </a>
             <a href="#contact" className="hover:text-white transition-colors">
-              Contact & Inquiries
+              DM on X
             </a>
           </nav>
 
@@ -65,14 +68,19 @@ export const Footer: React.FC = () => {
           </div>
         </div>
 
-        {/* Bottom bar */}
+        {/* Bottom bar without email */}
         <div className="pt-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-[11px] text-neutral-400">
           <p>© {new Date().getFullYear()} SBG Websites. Built with clean React & Tailwind. All rights reserved.</p>
           <div className="flex items-center gap-3 text-neutral-400">
-            <span className="text-amber-400 font-medium">$10 Custom Build + $15/mo Cloud Hosting</span>
+            <span className="text-amber-400 font-medium">$10 Custom Build · Optional $15/mo Cloud Hosting</span>
             <span>·</span>
-            <a href={`mailto:${CONTACT_EMAIL}`} className="hover:text-white transition-colors">
-              {CONTACT_EMAIL}
+            <a
+              href={X_PROFILE_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-neutral-300 hover:text-white underline"
+            >
+              Contact on X: {X_HANDLE}
             </a>
           </div>
         </div>

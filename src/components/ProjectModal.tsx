@@ -4,43 +4,29 @@ import {
   Monitor,
   Smartphone,
   Gauge,
-  CheckCircle2,
-  PhoneCall,
-  Calendar,
-  Layers,
-  ArrowRight,
-  TrendingUp,
+  Home,
   Briefcase,
-  Home
+  TrendingUp,
+  ArrowUpRight,
+  PhoneCall
 } from 'lucide-react';
 import { Project } from '../types';
+import { X_PROFILE_URL, X_HANDLE } from '../data/portfolioData';
 
 interface ProjectModalProps {
   project: Project | null;
   onClose: () => void;
-  onRequestSimilar: (projectTitle: string) => void;
 }
 
-export const ProjectModal: React.FC<ProjectModalProps> = ({
-  project,
-  onClose,
-  onRequestSimilar,
-}) => {
+export const ProjectModal: React.FC<ProjectModalProps> = ({ project, onClose }) => {
   const [activeTab, setActiveTab] = useState<'simulator' | 'audit'>('simulator');
   const [deviceMode, setDeviceMode] = useState<'desktop' | 'mobile'>('desktop');
 
   // Interactive Simulator States
-  // 1. Contractor Simulator
   const [contractorCategory, setContractorCategory] = useState<'all' | 'custom_homes' | 'remodel'>('all');
   const [quoteRequested, setQuoteRequested] = useState(false);
-
-  // 2. Consulting Simulator
   const [activePractice, setActivePractice] = useState<'strategy' | 'finance' | 'governance'>('strategy');
-  const [bookingConfirmed, setBookingConfirmed] = useState(false);
-
-  // 3. SaaS Landing Simulator
   const [timeRange, setTimeRange] = useState<'7d' | '30d' | '90d'>('30d');
-  const [activeMetricTab, setActiveMetricTab] = useState<'revenue' | 'users' | 'uptime'>('revenue');
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -97,7 +83,7 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({
                     : 'text-neutral-300 hover:text-white'
                 }`}
               >
-                Case Study & Audit
+                Architecture & Audit
               </button>
             </div>
 
@@ -131,16 +117,14 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({
                 : 'border-transparent text-neutral-400'
             }`}
           >
-            Case Study
+            Audit Details
           </button>
         </div>
 
         {/* Modal Body */}
         <div className="p-6 overflow-y-auto flex-1">
           {activeTab === 'simulator' ? (
-            /* ================= TAB 1: INTERACTIVE SIMULATOR ================= */
             <div className="flex flex-col gap-5">
-              {/* Simulator Toolbar */}
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-3 bg-neutral-950/70 border border-neutral-800/80 rounded-xl text-xs">
                 <div className="flex items-center gap-2">
                   <span className="font-mono text-neutral-400 uppercase tracking-wider text-[11px]">
@@ -148,13 +132,12 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({
                   </span>
                   <span className="text-neutral-600">|</span>
                   <span className="text-neutral-300 font-mono text-[11px] truncate">
-                    https://sbgwebsites.com/demo/{project.id}
+                    demo.sbgwebsites.com/{project.id}
                   </span>
                 </div>
 
-                {/* Viewport Width Switcher */}
                 <div className="flex items-center gap-2">
-                  <span className="text-neutral-400 text-[11px] hidden sm:inline">Test Viewport:</span>
+                  <span className="text-neutral-400 text-[11px] hidden sm:inline">Viewport:</span>
                   <div className="inline-flex p-0.5 bg-neutral-900 border border-neutral-800 rounded-md">
                     <button
                       onClick={() => setDeviceMode('desktop')}
@@ -165,7 +148,7 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({
                       }`}
                     >
                       <Monitor className="w-3.5 h-3.5" />
-                      <span>Desktop 1440px</span>
+                      <span>Desktop</span>
                     </button>
                     <button
                       onClick={() => setDeviceMode('mobile')}
@@ -176,7 +159,7 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({
                       }`}
                     >
                       <Smartphone className="w-3.5 h-3.5" />
-                      <span>Mobile 390px</span>
+                      <span>Mobile</span>
                     </button>
                   </div>
                 </div>
@@ -189,7 +172,6 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({
                     deviceMode === 'desktop' ? 'max-w-4xl' : 'max-w-[360px]'
                   }`}
                 >
-                  {/* Browser Window Header Chrome */}
                   <div className="flex items-center justify-between px-3.5 py-2 bg-neutral-900 border-b border-neutral-800">
                     <div className="flex items-center gap-1.5">
                       <div className="w-2.5 h-2.5 rounded-full bg-rose-500/80" />
@@ -199,22 +181,20 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({
                     <div className="px-2.5 py-0.5 rounded bg-neutral-950 text-neutral-400 text-[11px] font-mono border border-neutral-800/80 truncate max-w-[240px]">
                       demo.sbgwebsites.com/{project.id}
                     </div>
-                    <div className="text-[10px] text-emerald-400 font-mono flex items-center gap-1">
-                      <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-                      Live Demo
+                    <div className="text-[10px] text-emerald-400 font-mono">
+                      $10 Build
                     </div>
                   </div>
 
-                  {/* PROJECT-SPECIFIC INTERACTIVE CONTENT (NO E-COMMERCE) */}
+                  {/* Interactive Content */}
                   <div className="p-4 sm:p-6 bg-neutral-950 min-h-[380px] text-neutral-100">
-                    {/* AETHER CONTRACTOR SIMULATOR */}
                     {project.interactivePreviewType === 'contractor' && (
                       <div className="flex flex-col gap-4">
                         <div className="flex items-center justify-between pb-3 border-b border-neutral-800">
                           <div className="flex items-center gap-2">
                             <Home className="w-4 h-4 text-amber-400" />
-                            <span className="text-base font-bold tracking-tight text-white font-display">
-                              AETHER DESIGN BUILD
+                            <span className="text-base font-bold text-white font-display">
+                              AETHER BUILDERS
                             </span>
                           </div>
                           <button
@@ -227,8 +207,8 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({
                         </div>
 
                         {quoteRequested && (
-                          <div className="p-3 bg-emerald-950/80 border border-emerald-800 rounded-xl text-xs text-emerald-200 flex items-center justify-between animate-in fade-in">
-                            <span>Quote request received! Contractor callback dispatched within 2 hours.</span>
+                          <div className="p-3 bg-emerald-950/80 border border-emerald-800 rounded-xl text-xs text-emerald-200 flex items-center justify-between">
+                            <span>Quote inquiry dispatched directly to contractor.</span>
                             <button
                               onClick={() => setQuoteRequested(false)}
                               className="text-neutral-400 hover:text-white"
@@ -257,7 +237,7 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({
                                 : 'bg-neutral-900 text-neutral-400 hover:text-white'
                             }`}
                           >
-                            Custom Homes
+                            Custom Builds
                           </button>
                           <button
                             onClick={() => setContractorCategory('remodel')}
@@ -267,54 +247,46 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({
                                 : 'bg-neutral-900 text-neutral-400 hover:text-white'
                             }`}
                           >
-                            Remodeling
+                            Remodels
                           </button>
                         </div>
 
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-1">
-                          <div className="p-3.5 bg-neutral-900/60 border border-neutral-800 rounded-xl flex flex-col justify-between">
-                            <div>
-                              <div className="text-[11px] text-amber-400 mb-1">Architectural Build · 2025</div>
-                              <h4 className="text-sm font-semibold text-white">The Fjord Residence</h4>
-                              <p className="text-xs text-neutral-400 mt-1 mb-3">
-                                4,200 sq.ft contemporary hillside construction with floor-to-ceiling glass.
-                              </p>
-                            </div>
-                            <span className="text-xs text-neutral-300 font-mono">Status: Completed · 5-Star Review</span>
+                          <div className="p-3.5 bg-neutral-900/60 border border-neutral-800 rounded-xl">
+                            <span className="text-[11px] text-amber-400 block mb-1">Architectural Build</span>
+                            <h4 className="text-sm font-semibold text-white">Hillside Residence</h4>
+                            <p className="text-xs text-neutral-400 mt-1">
+                              Custom 4,200 sq.ft contemporary home with clean steel and glass architecture.
+                            </p>
                           </div>
-
-                          <div className="p-3.5 bg-neutral-900/60 border border-neutral-800 rounded-xl flex flex-col justify-between">
-                            <div>
-                              <div className="text-[11px] text-amber-400 mb-1">Full Luxury Remodel</div>
-                              <h4 className="text-sm font-semibold text-white">Travertine Plinth Villa</h4>
-                              <p className="text-xs text-neutral-400 mt-1 mb-3">
-                                Complete interior and exterior renovation with custom European millwork.
-                              </p>
-                            </div>
-                            <span className="text-xs text-neutral-300 font-mono">Status: Featured on Dwell</span>
+                          <div className="p-3.5 bg-neutral-900/60 border border-neutral-800 rounded-xl">
+                            <span className="text-[11px] text-amber-400 block mb-1">Full Remodel</span>
+                            <h4 className="text-sm font-semibold text-white">Travertine Villa</h4>
+                            <p className="text-xs text-neutral-400 mt-1">
+                              Complete interior renovation with natural stone surfaces and open layout.
+                            </p>
                           </div>
                         </div>
                       </div>
                     )}
 
-                    {/* AVENUE ADVISORY CONSULTING SIMULATOR */}
                     {project.interactivePreviewType === 'consulting' && (
                       <div className="flex flex-col gap-4">
                         <div className="flex items-center justify-between pb-3 border-b border-neutral-800">
                           <div className="flex items-center gap-2">
                             <Briefcase className="w-4 h-4 text-amber-400" />
                             <span className="text-base font-bold text-white font-display">
-                              AVENUE STRATEGIC PARTNERS
+                              AVENUE STRATEGIC
                             </span>
                           </div>
-                          <span className="text-xs text-neutral-400">London · New York</span>
+                          <span className="text-xs text-neutral-400">Corporate Advisory</span>
                         </div>
 
                         <div className="grid grid-cols-3 gap-2">
                           {[
-                            { id: 'strategy', label: 'Corporate Strategy' },
+                            { id: 'strategy', label: 'Strategy' },
                             { id: 'finance', label: 'M&A Advisory' },
-                            { id: 'governance', label: 'Board Advisory' },
+                            { id: 'governance', label: 'Governance' },
                           ].map((tab) => (
                             <button
                               key={tab.id}
@@ -332,33 +304,23 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({
 
                         <div className="p-4 bg-neutral-900/60 border border-neutral-800 rounded-xl">
                           <h4 className="text-sm font-bold text-white mb-1.5">
-                            {activePractice === 'strategy' && 'Strategic Planning & Growth Acceleration'}
-                            {activePractice === 'finance' && 'Mergers, Acquisitions & Growth Capital'}
-                            {activePractice === 'governance' && 'Executive Leadership & Board Governance'}
+                            {activePractice === 'strategy' && 'Strategic Planning & Growth'}
+                            {activePractice === 'finance' && 'Mergers, Acquisitions & Capital'}
+                            {activePractice === 'governance' && 'Executive Leadership Advisory'}
                           </h4>
-                          <p className="text-xs text-neutral-300 leading-relaxed mb-4">
-                            Guiding leadership teams through capital allocation, competitive market repositioning, and scale.
+                          <p className="text-xs text-neutral-300 leading-relaxed">
+                            Helping executive teams navigate market complexity and achieve sustainable growth.
                           </p>
-                          <div className="flex items-center justify-between pt-2 border-t border-neutral-800/80">
-                            <span className="text-xs text-neutral-400">Next Consultation Slot: Tomorrow 2:00 PM</span>
-                            <button
-                              onClick={() => setBookingConfirmed(true)}
-                              className="px-3 py-1 text-xs font-semibold bg-amber-400 text-neutral-950 rounded hover:bg-amber-300"
-                            >
-                              {bookingConfirmed ? 'Consultation Reserved' : 'Book 30-Min Call'}
-                            </button>
-                          </div>
                         </div>
                       </div>
                     )}
 
-                    {/* PULSEMETRICS SAAS TOUR SIMULATOR */}
                     {project.interactivePreviewType === 'analytics' && (
                       <div className="flex flex-col gap-4">
                         <div className="flex items-center justify-between pb-3 border-b border-neutral-800">
                           <div className="flex items-center gap-2">
                             <TrendingUp className="w-4 h-4 text-amber-400" />
-                            <span className="text-sm font-bold text-white">PulseMetrics Cloud Tour</span>
+                            <span className="text-sm font-bold text-white">PulseMetrics Tour</span>
                           </div>
                           <div className="flex items-center gap-1 p-0.5 bg-neutral-900 border border-neutral-800 rounded-md text-xs">
                             {(['7d', '30d', '90d'] as const).map((r) => (
@@ -381,28 +343,27 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({
                             <span className="text-lg font-bold text-emerald-400 font-mono">99.99%</span>
                           </div>
                           <div className="p-3 bg-neutral-900 rounded-xl border border-neutral-800">
-                            <span className="text-[11px] text-neutral-400 block mb-0.5">Edge Latency</span>
-                            <span className="text-lg font-bold text-white font-mono">14ms</span>
+                            <span className="text-[11px] text-neutral-400 block mb-0.5">Speed</span>
+                            <span className="text-lg font-bold text-white font-mono">0.4s</span>
                           </div>
                           <div className="p-3 bg-neutral-900 rounded-xl border border-neutral-800">
-                            <span className="text-[11px] text-neutral-400 block mb-0.5">Lead Capture</span>
-                            <span className="text-lg font-bold text-amber-400 font-mono">+74%</span>
+                            <span className="text-[11px] text-neutral-400 block mb-0.5">Custom Build</span>
+                            <span className="text-lg font-bold text-amber-400 font-mono">$10</span>
                           </div>
                         </div>
                       </div>
                     )}
 
-                    {/* STUDIO AETERNUM EDITORIAL SIMULATOR */}
                     {project.interactivePreviewType === 'editorial' && (
                       <div className="flex flex-col gap-4 text-center p-4">
                         <span className="text-xs uppercase tracking-widest text-neutral-400 font-mono">
-                          Visual Archive · Studio Aeternum
+                          Studio Aeternum
                         </span>
                         <h3 className="text-2xl font-bold tracking-tight text-white font-display">
-                          We Shape Culture Through Digital Craft
+                          Modern Creative Portfolio
                         </h3>
                         <p className="text-xs text-neutral-400 max-w-md mx-auto">
-                          Bespoke portfolio websites built for high-end creative agencies and visual directors.
+                          Bespoke portfolio websites built with clean code and high performance for $10.
                         </p>
                       </div>
                     )}
@@ -411,7 +372,6 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({
               </div>
             </div>
           ) : (
-            /* ================= TAB 2: TECHNICAL CASE STUDY & AUDIT ================= */
             <div className="space-y-8">
               {/* Google Lighthouse 4-Gauge Audit */}
               <div>
@@ -445,7 +405,7 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="p-4 bg-neutral-950 rounded-xl border border-neutral-800">
                   <h4 className="text-xs font-semibold uppercase tracking-wider text-neutral-400 mb-2">
-                    The Business Challenge
+                    Client Need
                   </h4>
                   <p className="text-xs text-neutral-300 leading-relaxed">
                     {project.challenge}
@@ -454,7 +414,7 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({
 
                 <div className="p-4 bg-neutral-950 rounded-xl border border-neutral-800">
                   <h4 className="text-xs font-semibold uppercase tracking-wider text-amber-400 mb-2">
-                    The $10 Website Solution
+                    Delivered Solution
                   </h4>
                   <p className="text-xs text-neutral-300 leading-relaxed">
                     {project.solution}
@@ -462,57 +422,31 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({
                 </div>
               </div>
 
-              {/* Measurable Results */}
+              {/* Deliverables */}
               <div>
-                <h4 className="text-xs font-semibold uppercase tracking-wider text-neutral-400 mb-3">
-                  Quantifiable Client Outcomes
+                <h4 className="text-xs font-semibold uppercase tracking-wider text-neutral-400 mb-2">
+                  Included Features
                 </h4>
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-                  {project.metrics.map((metric) => (
-                    <div
-                      key={metric.label}
-                      className="p-3 bg-neutral-950 rounded-xl border border-neutral-800"
+                <div className="flex flex-wrap gap-2">
+                  {project.deliverables.map((d) => (
+                    <span
+                      key={d}
+                      className="text-xs px-3 py-1.5 rounded-lg bg-neutral-950 border border-neutral-800 text-neutral-200"
                     >
-                      <span className="text-lg font-bold text-white tabular-nums block">
-                        {metric.value}
-                      </span>
-                      <span className="text-xs font-medium text-neutral-300 block">
-                        {metric.label}
-                      </span>
-                      {metric.change && (
-                        <span className="text-[11px] text-neutral-500 block mt-0.5">
-                          {metric.change}
-                        </span>
-                      )}
-                    </div>
+                      {d}
+                    </span>
                   ))}
                 </div>
               </div>
-
-              {/* Client Testimonial */}
-              {project.testimonial && (
-                <div className="p-5 bg-neutral-950 rounded-xl border border-neutral-800 relative">
-                  <p className="text-sm italic text-neutral-200 leading-relaxed mb-4">
-                    "{project.testimonial.quote}"
-                  </p>
-                  <div className="flex items-center gap-2 text-xs">
-                    <span className="font-semibold text-white">{project.testimonial.author}</span>
-                    <span className="text-neutral-500">·</span>
-                    <span className="text-neutral-400">
-                      {project.testimonial.role}, {project.testimonial.company}
-                    </span>
-                  </div>
-                </div>
-              )}
             </div>
           )}
         </div>
 
-        {/* Modal Bottom Action Footer */}
+        {/* Modal Bottom Action: Direct to X */}
         <div className="px-6 py-4 border-t border-neutral-800 bg-neutral-950 flex flex-col sm:flex-row items-center justify-between gap-3">
           <div className="text-xs text-neutral-400 text-center sm:text-left">
-            <span>Ready for a custom website like </span>
-            <strong className="text-white">{project.title}</strong>? Just $10 build + $15/mo hosting.
+            <span>Want a custom website like </span>
+            <strong className="text-white">{project.title}</strong>? Just $10 build fee.
           </div>
 
           <div className="flex items-center gap-3 w-full sm:w-auto">
@@ -522,16 +456,15 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({
             >
               Close
             </button>
-            <button
-              onClick={() => {
-                onRequestSimilar(project.title);
-                onClose();
-              }}
-              className="px-4 py-2 text-xs font-semibold text-neutral-950 bg-amber-400 hover:bg-amber-300 rounded-lg transition-colors flex items-center justify-center gap-1.5 shadow-md shadow-amber-400/10 w-full sm:w-auto cursor-pointer"
+            <a
+              href={X_PROFILE_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="px-4 py-2 text-xs font-bold text-neutral-950 bg-amber-400 hover:bg-amber-300 rounded-lg transition-colors flex items-center justify-center gap-1.5 shadow-md shadow-amber-400/10 w-full sm:w-auto cursor-pointer"
             >
-              <span>Get My $10 Website</span>
-              <ArrowRight className="w-3.5 h-3.5" />
-            </button>
+              <span>DM on X {X_HANDLE}</span>
+              <ArrowUpRight className="w-3.5 h-3.5" />
+            </a>
           </div>
         </div>
       </div>
