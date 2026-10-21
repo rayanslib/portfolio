@@ -1,5 +1,6 @@
 import React from 'react';
-import { Code2, ArrowUp } from 'lucide-react';
+import { Globe, ArrowUp } from 'lucide-react';
+import { X_PROFILE_URL, X_HANDLE, CONTACT_EMAIL } from '../data/portfolioData';
 
 export const Footer: React.FC = () => {
   const scrollToTop = () => {
@@ -13,14 +14,14 @@ export const Footer: React.FC = () => {
           {/* Brand */}
           <div className="flex items-center gap-2.5">
             <span className="w-7 h-7 rounded-lg bg-neutral-900 border border-neutral-800 flex items-center justify-center text-amber-400">
-              <Code2 className="w-3.5 h-3.5" />
+              <Globe className="w-3.5 h-3.5" />
             </span>
             <span className="font-display font-bold text-white text-base">
-              Rayan <span className="text-neutral-500 font-normal">/ Web Studio</span>
+              SBG Websites <span className="text-neutral-500 font-normal">/ by Rayan</span>
             </span>
           </div>
 
-          {/* Nav links */}
+          {/* Clean Nav links */}
           <nav className="flex flex-wrap items-center justify-center gap-6 text-neutral-400">
             <a href="#projects" className="hover:text-white transition-colors">
               Selected Works
@@ -28,38 +29,51 @@ export const Footer: React.FC = () => {
             <a href="#services" className="hover:text-white transition-colors">
               Services
             </a>
-            <a href="#estimator" className="hover:text-white transition-colors">
-              Cost Estimator
+            <a href="#pricing" className="hover:text-white transition-colors">
+              Pricing ($10)
             </a>
             <a href="#process" className="hover:text-white transition-colors">
               Process
             </a>
-            <a href="#testimonials" className="hover:text-white transition-colors">
-              Client Results
-            </a>
             <a href="#contact" className="hover:text-white transition-colors">
-              Contact
+              Contact & Inquiries
             </a>
           </nav>
 
-          {/* Back to top */}
-          <button
-            onClick={scrollToTop}
-            className="flex items-center gap-1.5 text-neutral-400 hover:text-white transition-colors cursor-pointer"
-            aria-label="Scroll back to top"
-          >
-            <span>Back to top</span>
-            <ArrowUp className="w-3.5 h-3.5" />
-          </button>
+          {/* Social X Account & Back to top */}
+          <div className="flex items-center gap-4">
+            <a
+              href={X_PROFILE_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-neutral-900 hover:bg-neutral-800 border border-neutral-800 text-neutral-300 hover:text-white transition-colors"
+              aria-label="SBG Websites on X"
+            >
+              <svg className="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+              </svg>
+              <span>{X_HANDLE}</span>
+            </a>
+
+            <button
+              onClick={scrollToTop}
+              className="flex items-center gap-1.5 text-neutral-400 hover:text-white transition-colors cursor-pointer p-1.5 rounded hover:bg-neutral-900"
+              aria-label="Scroll back to top"
+            >
+              <ArrowUp className="w-4 h-4" />
+            </button>
+          </div>
         </div>
 
         {/* Bottom bar */}
         <div className="pt-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-[11px] text-neutral-400">
-          <p>© {new Date().getFullYear()} Rayan. All rights reserved. Hand-crafted with React, TypeScript & Tailwind.</p>
-          <div className="flex items-center gap-4 text-neutral-400">
-            <span>Direct: rayanlhrban@gmail.com</span>
+          <p>© {new Date().getFullYear()} SBG Websites. Built with clean React & Tailwind. All rights reserved.</p>
+          <div className="flex items-center gap-3 text-neutral-400">
+            <span className="text-amber-400 font-medium">$10 Custom Build + $15/mo Cloud Hosting</span>
             <span>·</span>
-            <span>Available Worldwide</span>
+            <a href={`mailto:${CONTACT_EMAIL}`} className="hover:text-white transition-colors">
+              {CONTACT_EMAIL}
+            </a>
           </div>
         </div>
       </div>

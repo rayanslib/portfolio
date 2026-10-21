@@ -17,12 +17,12 @@ export default function App() {
   const [inquiryMessage, setInquiryMessage] = useState('');
   const [inquiryBudget, setInquiryBudget] = useState('');
 
-  // Handle transfer from Scope Estimator to Contact Form
-  const handleApplyScope = (scopeSummary: string, budgetRange: string) => {
+  // Handle transfer from Pricing Estimator to Contact Form
+  const handleApplyScope = (scopeSummary: string, budgetSummary: string) => {
     setInquiryMessage(
-      `Hello Rayan, I configured the following website scope in your estimator: ${scopeSummary}. Let's schedule a call to review.`
+      `Hello Rayan, I would like to get my website started: ${scopeSummary}. Total: ${budgetSummary}.`
     );
-    setInquiryBudget(budgetRange);
+    setInquiryBudget(budgetSummary);
     const contactElem = document.getElementById('contact');
     if (contactElem) {
       contactElem.scrollIntoView({ behavior: 'smooth' });
@@ -32,7 +32,7 @@ export default function App() {
   // Handle request for similar project from Project Modal
   const handleRequestSimilar = (projectTitle: string) => {
     setInquiryMessage(
-      `Hello Rayan, I inspected your work on ${projectTitle} and would like to build a similar high-performance website for my business.`
+      `Hello Rayan, I saw the ${projectTitle} website on SBG Websites and would like to build a similar high-performance site for my business ($10 build + $15/mo hosting).`
     );
     const contactElem = document.getElementById('contact');
     if (contactElem) {
@@ -51,33 +51,33 @@ export default function App() {
     <div className="min-h-screen bg-[#0a0a0c] text-neutral-100 flex flex-col font-sans selection:bg-amber-400 selection:text-neutral-950">
       {/* Top Bar Navigation */}
       <Header
-        onOpenEstimator={() => scrollToSection('estimator')}
+        onOpenPricing={() => scrollToSection('pricing')}
         onOpenContact={() => scrollToSection('contact')}
       />
 
       <main className="flex-1">
         {/* Split Screen Hero with Interactive Device Bezel */}
         <Hero
-          onOpenEstimator={() => scrollToSection('estimator')}
+          onOpenPricing={() => scrollToSection('pricing')}
           onExploreProjects={() => scrollToSection('projects')}
         />
 
-        {/* Selected Works & Interactive Project Showcase */}
+        {/* Selected Works & Client Website Showcase (Zero E-Commerce) */}
         <ProjectsShowcase onSelectProject={(project) => setSelectedProject(project)} />
 
-        {/* Interactive Scope & Cost Estimator */}
+        {/* Transparent $10 Website & $15/mo Hosting Pricing Calculator */}
         <ScopeEstimator onApplyScopeToInquiry={handleApplyScope} />
 
         {/* Services & Capabilities */}
         <ServicesSection />
 
-        {/* Process & Workflow */}
+        {/* Process & Turnaround */}
         <ProcessSection />
 
         {/* Client Endorsements & Proof */}
         <TestimonialsSection />
 
-        {/* Project Inquiry & Proposal Form */}
+        {/* Project Inquiry & X (@SBGwebsites) Direct Contact Form */}
         <ContactSection
           initialMessage={inquiryMessage}
           initialBudget={inquiryBudget}
@@ -87,7 +87,7 @@ export default function App() {
         <FaqSection />
       </main>
 
-      {/* Footer */}
+      {/* Footer with clean links and X account */}
       <Footer />
 
       {/* Case Study & Interactive Live Demo Modal */}

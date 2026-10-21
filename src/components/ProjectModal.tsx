@@ -1,18 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import {
   X,
-  ExternalLink,
   Monitor,
   Smartphone,
   Gauge,
   CheckCircle2,
-  ShoppingCart,
-  TrendingUp,
-  Sparkles,
-  Sliders,
-  DollarSign,
+  PhoneCall,
+  Calendar,
   Layers,
-  ArrowRight
+  ArrowRight,
+  TrendingUp,
+  Briefcase,
+  Home
 } from 'lucide-react';
 import { Project } from '../types';
 
@@ -31,24 +30,17 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({
   const [deviceMode, setDeviceMode] = useState<'desktop' | 'mobile'>('desktop');
 
   // Interactive Simulator States
-  // 1. Furniture E-commerce state
-  const [furnitureFilter, setFurnitureFilter] = useState<'all' | 'seating' | 'tables'>('all');
-  const [cartCount, setCartCount] = useState(0);
-  const [cartTotal, setCartTotal] = useState(0);
-  const [showCartToast, setShowCartToast] = useState(false);
+  // 1. Contractor Simulator
+  const [contractorCategory, setContractorCategory] = useState<'all' | 'custom_homes' | 'remodel'>('all');
+  const [quoteRequested, setQuoteRequested] = useState(false);
 
-  // 2. SaaS analytics state
+  // 2. Consulting Simulator
+  const [activePractice, setActivePractice] = useState<'strategy' | 'finance' | 'governance'>('strategy');
+  const [bookingConfirmed, setBookingConfirmed] = useState(false);
+
+  // 3. SaaS Landing Simulator
   const [timeRange, setTimeRange] = useState<'7d' | '30d' | '90d'>('30d');
-  const [activeMetricTab, setActiveMetricTab] = useState<'revenue' | 'users' | 'conversion'>('revenue');
-
-  // 3. Fintech calculator state
-  const [initialCapital, setInitialCapital] = useState(25000);
-  const [monthlyContribution, setMonthlyContribution] = useState(1200);
-  const [investmentYears, setInvestmentYears] = useState(10);
-
-  // 4. Botanica quiz state
-  const [quizStep, setQuizStep] = useState(1);
-  const [selectedSkinGoal, setSelectedSkinGoal] = useState<string | null>(null);
+  const [activeMetricTab, setActiveMetricTab] = useState<'revenue' | 'users' | 'uptime'>('revenue');
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -59,23 +51,6 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({
   }, [onClose]);
 
   if (!project) return null;
-
-  // Add to cart handler for simulator
-  const handleAddToCart = (price: number) => {
-    setCartCount((prev) => prev + 1);
-    setCartTotal((prev) => prev + price);
-    setShowCartToast(true);
-    setTimeout(() => setShowCartToast(false), 2400);
-  };
-
-  // Compound wealth calculation
-  const calculateWealth = () => {
-    const r = 0.08 / 12; // 8% annual return compounded monthly
-    const n = investmentYears * 12;
-    const futureValueInitial = initialCapital * Math.pow(1 + r, n);
-    const futureValueMonthly = monthlyContribution * ((Math.pow(1 + r, n) - 1) / r);
-    return Math.round(futureValueInitial + futureValueMonthly);
-  };
 
   return (
     <div
@@ -96,7 +71,7 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({
                 <span>·</span>
                 <span>{project.categoryLabel}</span>
                 <span>·</span>
-                <span>{project.client}</span>
+                <span className="text-amber-400">$10 Build Plan</span>
               </div>
             </div>
           </div>
@@ -112,7 +87,7 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({
                     : 'text-neutral-300 hover:text-white'
                 }`}
               >
-                Interactive Simulator
+                Interactive Preview
               </button>
               <button
                 onClick={() => setActiveTab('audit')}
@@ -160,7 +135,7 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({
           </button>
         </div>
 
-        {/* Modal Scrollable Body */}
+        {/* Modal Body */}
         <div className="p-6 overflow-y-auto flex-1">
           {activeTab === 'simulator' ? (
             /* ================= TAB 1: INTERACTIVE SIMULATOR ================= */
@@ -169,17 +144,17 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-3 bg-neutral-950/70 border border-neutral-800/80 rounded-xl text-xs">
                 <div className="flex items-center gap-2">
                   <span className="font-mono text-neutral-400 uppercase tracking-wider text-[11px]">
-                    Simulated Sandbox
+                    Interactive Client Sandbox
                   </span>
                   <span className="text-neutral-600">|</span>
                   <span className="text-neutral-300 font-mono text-[11px] truncate">
-                    {project.liveUrlMock}
+                    https://sbgwebsites.com/demo/{project.id}
                   </span>
                 </div>
 
                 {/* Viewport Width Switcher */}
                 <div className="flex items-center gap-2">
-                  <span className="text-neutral-400 text-[11px] hidden sm:inline">Viewport:</span>
+                  <span className="text-neutral-400 text-[11px] hidden sm:inline">Test Viewport:</span>
                   <div className="inline-flex p-0.5 bg-neutral-900 border border-neutral-800 rounded-md">
                     <button
                       onClick={() => setDeviceMode('desktop')}
@@ -222,405 +197,213 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({
                       <div className="w-2.5 h-2.5 rounded-full bg-emerald-500/80" />
                     </div>
                     <div className="px-2.5 py-0.5 rounded bg-neutral-950 text-neutral-400 text-[11px] font-mono border border-neutral-800/80 truncate max-w-[240px]">
-                      {project.liveUrlMock}
+                      demo.sbgwebsites.com/{project.id}
                     </div>
                     <div className="text-[10px] text-emerald-400 font-mono flex items-center gap-1">
                       <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-                      Interactive
+                      Live Demo
                     </div>
                   </div>
 
-                  {/* ================= PROJECT-SPECIFIC INTERACTIVE CONTENT ================= */}
+                  {/* PROJECT-SPECIFIC INTERACTIVE CONTENT (NO E-COMMERCE) */}
                   <div className="p-4 sm:p-6 bg-neutral-950 min-h-[380px] text-neutral-100">
-                    {/* AURA LIVING FURNITURE E-COMMERCE SIMULATOR */}
-                    {project.interactivePreviewType === 'furniture' && (
+                    {/* AETHER CONTRACTOR SIMULATOR */}
+                    {project.interactivePreviewType === 'contractor' && (
                       <div className="flex flex-col gap-4">
                         <div className="flex items-center justify-between pb-3 border-b border-neutral-800">
-                          <div>
+                          <div className="flex items-center gap-2">
+                            <Home className="w-4 h-4 text-amber-400" />
                             <span className="text-base font-bold tracking-tight text-white font-display">
-                              AURA LIVING
+                              AETHER DESIGN BUILD
                             </span>
-                            <span className="text-[11px] text-neutral-400 ml-2">Copenhagen</span>
                           </div>
-
-                          {/* Interactive Cart Button */}
-                          <div className="relative">
-                            <button
-                              className="px-3 py-1.5 text-xs bg-neutral-900 border border-neutral-800 rounded-lg flex items-center gap-2 hover:border-neutral-700 transition-colors"
-                              aria-label="View shopping bag"
-                            >
-                              <ShoppingCart className="w-3.5 h-3.5 text-amber-400" />
-                              <span className="tabular-nums font-medium">{cartCount} items</span>
-                              {cartTotal > 0 && (
-                                <span className="text-neutral-400">(${cartTotal})</span>
-                              )}
-                            </button>
-                            {showCartToast && (
-                              <div className="absolute right-0 top-10 px-3 py-1 bg-amber-400 text-neutral-950 text-xs font-semibold rounded shadow-lg whitespace-nowrap animate-in fade-in">
-                                Item added to bag!
-                              </div>
-                            )}
-                          </div>
+                          <button
+                            onClick={() => setQuoteRequested(true)}
+                            className="px-3 py-1.5 text-xs font-semibold bg-amber-400 text-neutral-950 rounded-lg hover:bg-amber-300 transition-colors flex items-center gap-1 cursor-pointer"
+                          >
+                            <PhoneCall className="w-3 h-3" />
+                            <span>Request Quote</span>
+                          </button>
                         </div>
 
-                        {/* Interactive Filter Buttons */}
+                        {quoteRequested && (
+                          <div className="p-3 bg-emerald-950/80 border border-emerald-800 rounded-xl text-xs text-emerald-200 flex items-center justify-between animate-in fade-in">
+                            <span>Quote request received! Contractor callback dispatched within 2 hours.</span>
+                            <button
+                              onClick={() => setQuoteRequested(false)}
+                              className="text-neutral-400 hover:text-white"
+                            >
+                              ✕
+                            </button>
+                          </div>
+                        )}
+
                         <div className="flex items-center gap-2">
                           <button
-                            onClick={() => setFurnitureFilter('all')}
+                            onClick={() => setContractorCategory('all')}
                             className={`px-3 py-1 text-xs rounded-md ${
-                              furnitureFilter === 'all'
+                              contractorCategory === 'all'
                                 ? 'bg-neutral-200 text-neutral-950 font-semibold'
                                 : 'bg-neutral-900 text-neutral-400 hover:text-white'
                             }`}
                           >
-                            All Pieces
+                            All Projects
                           </button>
                           <button
-                            onClick={() => setFurnitureFilter('seating')}
+                            onClick={() => setContractorCategory('custom_homes')}
                             className={`px-3 py-1 text-xs rounded-md ${
-                              furnitureFilter === 'seating'
+                              contractorCategory === 'custom_homes'
                                 ? 'bg-neutral-200 text-neutral-950 font-semibold'
                                 : 'bg-neutral-900 text-neutral-400 hover:text-white'
                             }`}
                           >
-                            Lounge Seating
+                            Custom Homes
                           </button>
                           <button
-                            onClick={() => setFurnitureFilter('tables')}
+                            onClick={() => setContractorCategory('remodel')}
                             className={`px-3 py-1 text-xs rounded-md ${
-                              furnitureFilter === 'tables'
+                              contractorCategory === 'remodel'
                                 ? 'bg-neutral-200 text-neutral-950 font-semibold'
                                 : 'bg-neutral-900 text-neutral-400 hover:text-white'
                             }`}
                           >
-                            Travertine Tables
+                            Remodeling
                           </button>
                         </div>
 
-                        {/* Simulated Products Grid */}
-                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-2">
-                          {(furnitureFilter === 'all' || furnitureFilter === 'seating') && (
-                            <div className="p-3 bg-neutral-900/60 border border-neutral-800 rounded-xl flex flex-col justify-between">
-                              <div>
-                                <div className="text-[11px] text-neutral-400 mb-1">Oatmeal Bouclé</div>
-                                <h4 className="text-sm font-semibold text-white">Nordic Low Lounge Chair</h4>
-                                <p className="text-xs text-neutral-400 mt-1 mb-3">
-                                  Solid white oak frame with hand-loomed wool upholstery.
-                                </p>
-                              </div>
-                              <div className="flex items-center justify-between pt-2 border-t border-neutral-800/60">
-                                <span className="text-sm font-bold text-white tabular-nums">$840</span>
-                                <button
-                                  onClick={() => handleAddToCart(840)}
-                                  className="px-3 py-1 text-xs font-semibold bg-amber-400 text-neutral-950 rounded hover:bg-amber-300 transition-colors cursor-pointer"
-                                >
-                                  + Add to Bag
-                                </button>
-                              </div>
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-1">
+                          <div className="p-3.5 bg-neutral-900/60 border border-neutral-800 rounded-xl flex flex-col justify-between">
+                            <div>
+                              <div className="text-[11px] text-amber-400 mb-1">Architectural Build · 2025</div>
+                              <h4 className="text-sm font-semibold text-white">The Fjord Residence</h4>
+                              <p className="text-xs text-neutral-400 mt-1 mb-3">
+                                4,200 sq.ft contemporary hillside construction with floor-to-ceiling glass.
+                              </p>
                             </div>
-                          )}
+                            <span className="text-xs text-neutral-300 font-mono">Status: Completed · 5-Star Review</span>
+                          </div>
 
-                          {(furnitureFilter === 'all' || furnitureFilter === 'tables') && (
-                            <div className="p-3 bg-neutral-900/60 border border-neutral-800 rounded-xl flex flex-col justify-between">
-                              <div>
-                                <div className="text-[11px] text-neutral-400 mb-1">Natural Stone</div>
-                                <h4 className="text-sm font-semibold text-white">Roma Travertine Plinth</h4>
-                                <p className="text-xs text-neutral-400 mt-1 mb-3">
-                                  Honed Italian unfilled travertine with monolithic chamfered edges.
-                                </p>
-                              </div>
-                              <div className="flex items-center justify-between pt-2 border-t border-neutral-800/60">
-                                <span className="text-sm font-bold text-white tabular-nums">$1,250</span>
-                                <button
-                                  onClick={() => handleAddToCart(1250)}
-                                  className="px-3 py-1 text-xs font-semibold bg-amber-400 text-neutral-950 rounded hover:bg-amber-300 transition-colors cursor-pointer"
-                                >
-                                  + Add to Bag
-                                </button>
-                              </div>
+                          <div className="p-3.5 bg-neutral-900/60 border border-neutral-800 rounded-xl flex flex-col justify-between">
+                            <div>
+                              <div className="text-[11px] text-amber-400 mb-1">Full Luxury Remodel</div>
+                              <h4 className="text-sm font-semibold text-white">Travertine Plinth Villa</h4>
+                              <p className="text-xs text-neutral-400 mt-1 mb-3">
+                                Complete interior and exterior renovation with custom European millwork.
+                              </p>
                             </div>
-                          )}
+                            <span className="text-xs text-neutral-300 font-mono">Status: Featured on Dwell</span>
+                          </div>
                         </div>
                       </div>
                     )}
 
-                    {/* PULSEMETRICS SAAS ANALYTICS SIMULATOR */}
+                    {/* AVENUE ADVISORY CONSULTING SIMULATOR */}
+                    {project.interactivePreviewType === 'consulting' && (
+                      <div className="flex flex-col gap-4">
+                        <div className="flex items-center justify-between pb-3 border-b border-neutral-800">
+                          <div className="flex items-center gap-2">
+                            <Briefcase className="w-4 h-4 text-amber-400" />
+                            <span className="text-base font-bold text-white font-display">
+                              AVENUE STRATEGIC PARTNERS
+                            </span>
+                          </div>
+                          <span className="text-xs text-neutral-400">London · New York</span>
+                        </div>
+
+                        <div className="grid grid-cols-3 gap-2">
+                          {[
+                            { id: 'strategy', label: 'Corporate Strategy' },
+                            { id: 'finance', label: 'M&A Advisory' },
+                            { id: 'governance', label: 'Board Advisory' },
+                          ].map((tab) => (
+                            <button
+                              key={tab.id}
+                              onClick={() => setActivePractice(tab.id as any)}
+                              className={`p-2.5 text-xs rounded-xl border text-center transition-colors ${
+                                activePractice === tab.id
+                                  ? 'bg-neutral-900 border-amber-400 text-white font-semibold'
+                                  : 'bg-neutral-950 border-neutral-800 text-neutral-400 hover:text-white'
+                              }`}
+                            >
+                              {tab.label}
+                            </button>
+                          ))}
+                        </div>
+
+                        <div className="p-4 bg-neutral-900/60 border border-neutral-800 rounded-xl">
+                          <h4 className="text-sm font-bold text-white mb-1.5">
+                            {activePractice === 'strategy' && 'Strategic Planning & Growth Acceleration'}
+                            {activePractice === 'finance' && 'Mergers, Acquisitions & Growth Capital'}
+                            {activePractice === 'governance' && 'Executive Leadership & Board Governance'}
+                          </h4>
+                          <p className="text-xs text-neutral-300 leading-relaxed mb-4">
+                            Guiding leadership teams through capital allocation, competitive market repositioning, and scale.
+                          </p>
+                          <div className="flex items-center justify-between pt-2 border-t border-neutral-800/80">
+                            <span className="text-xs text-neutral-400">Next Consultation Slot: Tomorrow 2:00 PM</span>
+                            <button
+                              onClick={() => setBookingConfirmed(true)}
+                              className="px-3 py-1 text-xs font-semibold bg-amber-400 text-neutral-950 rounded hover:bg-amber-300"
+                            >
+                              {bookingConfirmed ? 'Consultation Reserved' : 'Book 30-Min Call'}
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    )}
+
+                    {/* PULSEMETRICS SAAS TOUR SIMULATOR */}
                     {project.interactivePreviewType === 'analytics' && (
                       <div className="flex flex-col gap-4">
                         <div className="flex items-center justify-between pb-3 border-b border-neutral-800">
                           <div className="flex items-center gap-2">
                             <TrendingUp className="w-4 h-4 text-amber-400" />
-                            <span className="text-sm font-bold text-white">PulseMetrics Console</span>
+                            <span className="text-sm font-bold text-white">PulseMetrics Cloud Tour</span>
                           </div>
-
-                          {/* Time Range Selector */}
                           <div className="flex items-center gap-1 p-0.5 bg-neutral-900 border border-neutral-800 rounded-md text-xs">
-                            {(['7d', '30d', '90d'] as const).map((range) => (
+                            {(['7d', '30d', '90d'] as const).map((r) => (
                               <button
-                                key={range}
-                                onClick={() => setTimeRange(range)}
-                                className={`px-2 py-0.5 rounded transition-colors ${
-                                  timeRange === range
-                                    ? 'bg-neutral-800 text-white font-semibold'
-                                    : 'text-neutral-400 hover:text-white'
+                                key={r}
+                                onClick={() => setTimeRange(r)}
+                                className={`px-2 py-0.5 rounded ${
+                                  timeRange === r ? 'bg-neutral-800 text-white font-bold' : 'text-neutral-400'
                                 }`}
                               >
-                                {range.toUpperCase()}
+                                {r.toUpperCase()}
                               </button>
                             ))}
                           </div>
                         </div>
 
-                        {/* Interactive Metric Cards */}
-                        <div className="grid grid-cols-3 gap-3">
-                          <button
-                            onClick={() => setActiveMetricTab('revenue')}
-                            className={`p-3 rounded-xl border text-left transition-colors cursor-pointer ${
-                              activeMetricTab === 'revenue'
-                                ? 'bg-neutral-900 border-amber-400/80 shadow-sm'
-                                : 'bg-neutral-950 border-neutral-800 hover:border-neutral-700'
-                            }`}
-                          >
-                            <span className="text-[11px] text-neutral-400 block mb-1">
-                              {timeRange === '7d' ? '7-Day ARR' : timeRange === '30d' ? 'Monthly ARR' : 'Quarterly ARR'}
-                            </span>
-                            <span className="text-base sm:text-lg font-bold text-white tabular-nums">
-                              {timeRange === '7d' ? '$28.4k' : timeRange === '30d' ? '$128.4k' : '$394.2k'}
-                            </span>
-                            <span className="text-[10px] text-emerald-400 font-medium block mt-0.5">
-                              +18.4% vs last period
-                            </span>
-                          </button>
-
-                          <button
-                            onClick={() => setActiveMetricTab('users')}
-                            className={`p-3 rounded-xl border text-left transition-colors cursor-pointer ${
-                              activeMetricTab === 'users'
-                                ? 'bg-neutral-900 border-amber-400/80 shadow-sm'
-                                : 'bg-neutral-950 border-neutral-800 hover:border-neutral-700'
-                            }`}
-                          >
-                            <span className="text-[11px] text-neutral-400 block mb-1">Active Users</span>
-                            <span className="text-base sm:text-lg font-bold text-white tabular-nums">
-                              {timeRange === '7d' ? '19.2k' : timeRange === '30d' ? '84.1k' : '241.0k'}
-                            </span>
-                            <span className="text-[10px] text-emerald-400 font-medium block mt-0.5">
-                              +12.1% growth
-                            </span>
-                          </button>
-
-                          <button
-                            onClick={() => setActiveMetricTab('conversion')}
-                            className={`p-3 rounded-xl border text-left transition-colors cursor-pointer ${
-                              activeMetricTab === 'conversion'
-                                ? 'bg-neutral-900 border-amber-400/80 shadow-sm'
-                                : 'bg-neutral-950 border-neutral-800 hover:border-neutral-700'
-                            }`}
-                          >
-                            <span className="text-[11px] text-neutral-400 block mb-1">Conv. Rate</span>
-                            <span className="text-base sm:text-lg font-bold text-white tabular-nums">
-                              4.15%
-                            </span>
-                            <span className="text-[10px] text-emerald-400 font-medium block mt-0.5">
-                              +0.8% target met
-                            </span>
-                          </button>
-                        </div>
-
-                        {/* Simulated Visual Graph Bar */}
-                        <div className="p-4 bg-neutral-900/50 rounded-xl border border-neutral-800">
-                          <div className="flex items-center justify-between mb-3 text-xs text-neutral-400">
-                            <span>Dynamic Trajectory Simulator</span>
-                            <span className="text-amber-400 font-mono">Real-time edge cache</span>
+                        <div className="grid grid-cols-3 gap-2">
+                          <div className="p-3 bg-neutral-900 rounded-xl border border-neutral-800">
+                            <span className="text-[11px] text-neutral-400 block mb-0.5">Uptime SLA</span>
+                            <span className="text-lg font-bold text-emerald-400 font-mono">99.99%</span>
                           </div>
-                          <div className="flex items-end gap-2 h-24 pt-2">
-                            {[40, 55, 48, 65, 78, 70, 88, 92, 100].map((h, i) => (
-                              <div key={i} className="flex-1 flex flex-col items-center gap-1 group">
-                                <div
-                                  className="w-full bg-gradient-to-t from-amber-400/30 to-amber-400 rounded-t transition-all duration-500 group-hover:to-amber-300"
-                                  style={{ height: `${h}%` }}
-                                />
-                                <span className="text-[9px] font-mono text-neutral-500">
-                                  T{i + 1}
-                                </span>
-                              </div>
-                            ))}
+                          <div className="p-3 bg-neutral-900 rounded-xl border border-neutral-800">
+                            <span className="text-[11px] text-neutral-400 block mb-0.5">Edge Latency</span>
+                            <span className="text-lg font-bold text-white font-mono">14ms</span>
+                          </div>
+                          <div className="p-3 bg-neutral-900 rounded-xl border border-neutral-800">
+                            <span className="text-[11px] text-neutral-400 block mb-0.5">Lead Capture</span>
+                            <span className="text-lg font-bold text-amber-400 font-mono">+74%</span>
                           </div>
                         </div>
                       </div>
                     )}
 
-                    {/* BOTANICA LAB SKINCARE QUIZ SIMULATOR */}
-                    {project.interactivePreviewType === 'botanical' && (
-                      <div className="flex flex-col gap-4">
-                        <div className="flex items-center justify-between pb-3 border-b border-neutral-800">
-                          <span className="text-sm font-bold text-white">Botanica Skincare Routine Quiz</span>
-                          <span className="text-xs text-amber-400 font-mono">Step {quizStep} of 2</span>
-                        </div>
-
-                        {quizStep === 1 ? (
-                          <div className="flex flex-col gap-3">
-                            <p className="text-xs text-neutral-300">
-                              What is your primary skincare focus for this season?
-                            </p>
-                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                              {['Deep Hydration & Barrier Repair', 'Radiance & Brightening', 'Calming Sensitive Skin', 'Anti-Pollution Defense'].map(
-                                (goal) => (
-                                  <button
-                                    key={goal}
-                                    onClick={() => setSelectedSkinGoal(goal)}
-                                    className={`p-3 text-left text-xs rounded-xl border transition-colors ${
-                                      selectedSkinGoal === goal
-                                        ? 'bg-amber-400 text-neutral-950 font-semibold border-amber-400'
-                                        : 'bg-neutral-900 text-neutral-300 border-neutral-800 hover:border-neutral-700'
-                                    }`}
-                                  >
-                                    {goal}
-                                  </button>
-                                )
-                              )}
-                            </div>
-                            <button
-                              disabled={!selectedSkinGoal}
-                              onClick={() => setQuizStep(2)}
-                              className="mt-2 py-2 px-4 text-xs font-semibold bg-neutral-200 text-neutral-950 rounded-lg hover:bg-white disabled:opacity-40 transition-colors self-end"
-                            >
-                              See Custom Routine →
-                            </button>
-                          </div>
-                        ) : (
-                          <div className="p-4 bg-neutral-900/80 rounded-xl border border-neutral-800 flex flex-col gap-3">
-                            <div className="flex items-center justify-between">
-                              <span className="text-xs font-bold text-amber-400">Custom Recommended Duo</span>
-                              <button
-                                onClick={() => {
-                                  setQuizStep(1);
-                                  setSelectedSkinGoal(null);
-                                }}
-                                className="text-[11px] text-neutral-400 hover:underline"
-                              >
-                                Retake Quiz
-                              </button>
-                            </div>
-                            <p className="text-xs text-neutral-300">
-                              Tailored for: <strong className="text-white">{selectedSkinGoal}</strong>
-                            </p>
-                            <div className="p-3 bg-neutral-950 rounded-lg border border-neutral-800 flex items-center justify-between">
-                              <div>
-                                <p className="text-xs font-semibold text-white">Botanical Barrier Elixir + Night Balm</p>
-                                <p className="text-[11px] text-neutral-400">Cold-pressed organic jojoba & blue tansy</p>
-                              </div>
-                              <span className="text-xs font-bold text-white">$68 Bundle</span>
-                            </div>
-                            <button
-                              onClick={() => {
-                                alert('In a live store, this seamlessly transfers to Shopify Cart & Checkout!');
-                              }}
-                              className="py-2 text-xs font-semibold bg-amber-400 text-neutral-950 rounded-lg hover:bg-amber-300"
-                            >
-                              Add Recommended Bundle to Cart
-                            </button>
-                          </div>
-                        )}
-                      </div>
-                    )}
-
-                    {/* KROMA FINANCE WEALTH MODELER SIMULATOR */}
-                    {project.interactivePreviewType === 'fintech' && (
-                      <div className="flex flex-col gap-4">
-                        <div className="flex items-center justify-between pb-3 border-b border-neutral-800">
-                          <span className="text-sm font-bold text-white">Kroma Capital Growth Modeler</span>
-                          <span className="text-xs text-emerald-400 font-mono">Assumes 8% annualized</span>
-                        </div>
-
-                        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                          <div>
-                            <label className="text-[11px] text-neutral-400 block mb-1">
-                              Starting Capital: ${initialCapital.toLocaleString()}
-                            </label>
-                            <input
-                              type="range"
-                              min="5000"
-                              max="100000"
-                              step="5000"
-                              value={initialCapital}
-                              onChange={(e) => setInitialCapital(Number(e.target.value))}
-                              className="w-full accent-amber-400"
-                            />
-                          </div>
-
-                          <div>
-                            <label className="text-[11px] text-neutral-400 block mb-1">
-                              Monthly Addition: ${monthlyContribution.toLocaleString()}
-                            </label>
-                            <input
-                              type="range"
-                              min="200"
-                              max="5000"
-                              step="100"
-                              value={monthlyContribution}
-                              onChange={(e) => setMonthlyContribution(Number(e.target.value))}
-                              className="w-full accent-amber-400"
-                            />
-                          </div>
-
-                          <div>
-                            <label className="text-[11px] text-neutral-400 block mb-1">
-                              Horizon: {investmentYears} Years
-                            </label>
-                            <input
-                              type="range"
-                              min="3"
-                              max="30"
-                              step="1"
-                              value={investmentYears}
-                              onChange={(e) => setInvestmentYears(Number(e.target.value))}
-                              className="w-full accent-amber-400"
-                            />
-                          </div>
-                        </div>
-
-                        {/* Calculated Results */}
-                        <div className="p-4 bg-neutral-900 rounded-xl border border-neutral-800 flex items-center justify-between">
-                          <div>
-                            <span className="text-[11px] text-neutral-400 block">Projected Portfolio Value</span>
-                            <span className="text-xl sm:text-2xl font-bold text-amber-400 tabular-nums">
-                              ${calculateWealth().toLocaleString()}
-                            </span>
-                          </div>
-                          <button
-                            onClick={() => alert('Consultation modal opens in live environment!')}
-                            className="px-3 py-1.5 text-xs font-semibold bg-neutral-200 text-neutral-950 rounded hover:bg-white"
-                          >
-                            Lock in Plan
-                          </button>
-                        </div>
-                      </div>
-                    )}
-
-                    {/* EDITORIAL STUDIO AETERNUM SIMULATOR */}
+                    {/* STUDIO AETERNUM EDITORIAL SIMULATOR */}
                     {project.interactivePreviewType === 'editorial' && (
-                      <div className="flex flex-col gap-4">
-                        <div className="flex items-center justify-between pb-3 border-b border-neutral-800">
-                          <span className="text-sm font-bold tracking-widest text-white uppercase font-display">
-                            Studio Aeternum
-                          </span>
-                          <span className="text-xs text-neutral-400">London · Paris · NYC</span>
-                        </div>
-
-                        <div className="p-6 bg-neutral-900 border border-neutral-800 rounded-xl text-center">
-                          <h3 className="text-xl sm:text-2xl font-extrabold tracking-tighter text-white uppercase mb-2 font-display">
-                            We Shape Visual Cultures & Forward Visions
-                          </h3>
-                          <p className="text-xs text-neutral-400 max-w-md mx-auto mb-4">
-                            Rigorous design direction and cinematic digital archives for forward-thinking cultural institutions.
-                          </p>
-                          <div className="flex justify-center gap-3">
-                            <span className="text-xs font-mono text-amber-400 underline cursor-pointer">
-                              Play 2025 Showreel (4K)
-                            </span>
-                          </div>
-                        </div>
+                      <div className="flex flex-col gap-4 text-center p-4">
+                        <span className="text-xs uppercase tracking-widest text-neutral-400 font-mono">
+                          Visual Archive · Studio Aeternum
+                        </span>
+                        <h3 className="text-2xl font-bold tracking-tight text-white font-display">
+                          We Shape Culture Through Digital Craft
+                        </h3>
+                        <p className="text-xs text-neutral-400 max-w-md mx-auto">
+                          Bespoke portfolio websites built for high-end creative agencies and visual directors.
+                        </p>
                       </div>
                     )}
                   </div>
@@ -662,7 +445,7 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="p-4 bg-neutral-950 rounded-xl border border-neutral-800">
                   <h4 className="text-xs font-semibold uppercase tracking-wider text-neutral-400 mb-2">
-                    The Client Challenge
+                    The Business Challenge
                   </h4>
                   <p className="text-xs text-neutral-300 leading-relaxed">
                     {project.challenge}
@@ -671,7 +454,7 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({
 
                 <div className="p-4 bg-neutral-950 rounded-xl border border-neutral-800">
                   <h4 className="text-xs font-semibold uppercase tracking-wider text-amber-400 mb-2">
-                    The Engineering Solution
+                    The $10 Website Solution
                   </h4>
                   <p className="text-xs text-neutral-300 leading-relaxed">
                     {project.solution}
@@ -682,7 +465,7 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({
               {/* Measurable Results */}
               <div>
                 <h4 className="text-xs font-semibold uppercase tracking-wider text-neutral-400 mb-3">
-                  Quantifiable Commercial Outcomes
+                  Quantifiable Client Outcomes
                 </h4>
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                   {project.metrics.map((metric) => (
@@ -728,16 +511,16 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({
         {/* Modal Bottom Action Footer */}
         <div className="px-6 py-4 border-t border-neutral-800 bg-neutral-950 flex flex-col sm:flex-row items-center justify-between gap-3">
           <div className="text-xs text-neutral-400 text-center sm:text-left">
-            <span>Like the architecture of </span>
-            <strong className="text-white">{project.title}</strong>? Let's build yours.
+            <span>Ready for a custom website like </span>
+            <strong className="text-white">{project.title}</strong>? Just $10 build + $15/mo hosting.
           </div>
 
           <div className="flex items-center gap-3 w-full sm:w-auto">
             <button
               onClick={onClose}
-              className="px-4 py-2 text-xs font-medium text-neutral-300 hover:text-white rounded-lg hover:bg-neutral-900 border border-neutral-800 transition-colors w-full sm:w-auto"
+              className="px-4 py-2 text-xs font-medium text-neutral-300 hover:text-white rounded-lg hover:bg-neutral-900 border border-neutral-800 transition-colors w-full sm:w-auto cursor-pointer"
             >
-              Close Viewer
+              Close
             </button>
             <button
               onClick={() => {
@@ -746,7 +529,7 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({
               }}
               className="px-4 py-2 text-xs font-semibold text-neutral-950 bg-amber-400 hover:bg-amber-300 rounded-lg transition-colors flex items-center justify-center gap-1.5 shadow-md shadow-amber-400/10 w-full sm:w-auto cursor-pointer"
             >
-              <span>Build a Site Like This</span>
+              <span>Get My $10 Website</span>
               <ArrowRight className="w-3.5 h-3.5" />
             </button>
           </div>

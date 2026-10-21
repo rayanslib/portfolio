@@ -1,101 +1,102 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {
-  calculateProjectEstimate,
+  calculatePricing,
   filterProjects,
   validateInquiry,
+  WEBSITE_BASE_PRICE,
+  HOSTING_MONTHLY_PRICE,
 } from './estimator.ts';
 import type { Project } from '../types/index.ts';
 
-test('calculateProjectEstimate computes baseline landing tier correctly', () => {
-  const estimate = calculateProjectEstimate({
-    tier: 'landing',
-    features: [],
-    timeline: 'standard',
+test('calculatePricing computes base $10 website + $15/month hosting correctly', () => {
+  const result = calculatePricing({
+    websiteType: 'landing',
+    hostingBilling: 'monthly',
+    extraPages: 0,
+    includeSeo: true,
+    includeContactForm: true,
   });
 
-  assert.equal(estimate.minPrice, 1800);
-  assert.equal(estimate.maxPrice, 2150);
-  assert.equal(estimate.estimatedWeeks, 2);
-  assert.equal(estimate.selectedFeaturesCount, 0);
+  assert.equal(result.oneTimeWebsitePrice, 10);
+  assert.equal(result.hostingPrice, 15);
+  assert.equal(result.hostingPeriodLabel, '/month');
+  assert.equal(result.totalUpfront, 25);
 });
 
-test('calculateProjectEstimate adds features and rush timeline correctly', () => {
-  const estimate = calculateProjectEstimate({
-    tier: 'ecommerce',
-    features: ['cms', 'seo'],
-    timeline: 'rush',
+test('calculatePricing adds extra pages and annual discount correctly', () => {
+  const result = calculatePricing({
+    websiteType: 'business',
+    hostingBilling: 'yearly',
+    extraPages: 2, // 2 * $5 = $10 extra
+    includeSeo: true,
+    includeContactForm: true,
   });
 
-  // Base 4800 + 600 + 450 = 5850 * 1.25 = 7312.5 -> rounded to 50: 7300
-  assert.ok(estimate.minPrice >= 7300);
-  assert.ok(estimate.maxPrice > estimate.minPrice);
-  assert.equal(estimate.selectedFeaturesCount, 2);
+  assert.equal(result.oneTimeWebsitePrice, 20); // 10 base + 10 extra
+  assert.equal(result.hostingPrice, 150); // annual hosting
+  assert.equal(result.hostingPeriodLabel, '/year');
+  assert.equal(result.totalUpfront, 170);
 });
 
-test('filterProjects filters by category and search query', () => {
+test('filterProjects filters by non-ecommerce category and search term', () => {
   const mockProjects: Project[] = [
     {
       id: '1',
-      title: 'Aura Living',
-      subtitle: 'Architectural Furniture Store',
-      category: 'ecommerce',
-      categoryLabel: 'E-Commerce',
+      title: 'Aether Construction',
+      subtitle: 'Luxury Contractor Website',
+      category: 'services',
+      categoryLabel: 'Services & Contractors',
       year: '2025',
-      image: '',
-      client: 'Aura Design',
-      deliverables: ['Custom Storefront', 'Checkout Integration'],
-      techStack: ['Next.js', 'Shopify'],
-      metrics: [],
-      overview: '',
-      challenge: '',
-      solution: '',
-      liveUrlMock: 'https://auraliving.studio',
-      featured: true,
-      interactivePreviewType: 'furniture',
-    },
-    {
-      id: '2',
-      title: 'PulseMetrics',
-      subtitle: 'SaaS Analytics Platform',
-      category: 'saas',
-      categoryLabel: 'SaaS & Tech',
-      year: '2025',
-      image: '',
-      client: 'Pulse Inc',
-      deliverables: ['Web Application', 'Dashboard'],
+      image: '/images/project_apex_contractor.jpg',
+      client: 'Aether Group',
+      deliverables: ['Custom Website', 'Contact System'],
       techStack: ['React', 'Tailwind'],
       metrics: [],
       overview: '',
       challenge: '',
       solution: '',
-      liveUrlMock: 'https://pulsemetrics.io',
       featured: true,
-      interactivePreviewType: 'analytics',
+      interactivePreviewType: 'contractor',
+    },
+    {
+      id: '2',
+      title: 'Avenue Partners',
+      subtitle: 'Corporate Advisory Website',
+      category: 'business',
+      categoryLabel: 'Business & Corporate',
+      year: '2025',
+      image: '/images/project_solaris_consulting.jpg',
+      client: 'Avenue Partners',
+      deliverables: ['Corporate Site', 'Lead Generation'],
+      techStack: ['Next.js', 'Tailwind'],
+      metrics: [],
+      overview: '',
+      challenge: '',
+      solution: '',
+      featured: true,
+      interactivePreviewType: 'consulting',
     },
   ];
 
   const allProjects = filterProjects(mockProjects, 'all');
   assert.equal(allProjects.length, 2);
 
-  const ecommerceOnly = filterProjects(mockProjects, 'ecommerce');
-  assert.equal(ecommerceOnly.length, 1);
-  assert.equal(ecommerceOnly[0].title, 'Aura Living');
+  const businessOnly = filterProjects(mockProjects, 'business');
+  assert.equal(businessOnly.length, 1);
+  assert.equal(businessOnly[0].title, 'Avenue Partners');
 
-  const searchMatch = filterProjects(mockProjects, 'all', 'dashboard');
+  const searchMatch = filterProjects(mockProjects, 'all', 'contractor');
   assert.equal(searchMatch.length, 1);
-  assert.equal(searchMatch[0].title, 'PulseMetrics');
-
-  const noMatch = filterProjects(mockProjects, 'all', 'nonexistent');
-  assert.equal(noMatch.length, 0);
+  assert.equal(searchMatch[0].title, 'Aether Construction');
 });
 
-test('validateInquiry flags missing fields and passes valid submissions', () => {
+test('validateInquiry validates form inputs correctly', () => {
   const invalid = validateInquiry({
     name: '',
-    email: 'bad-email',
-    message: 'short',
-    projectType: 'E-Commerce',
+    email: 'invalid-email',
+    message: 'hi',
+    projectType: 'Business Website',
   });
 
   assert.equal(invalid.isValid, false);
@@ -104,10 +105,10 @@ test('validateInquiry flags missing fields and passes valid submissions', () => 
   assert.ok(invalid.errors.message);
 
   const valid = validateInquiry({
-    name: 'Sarah Connor',
-    email: 'sarah@cyberdyne.com',
-    message: 'We need a high-performance website redesign for our robotics enterprise.',
-    projectType: 'Corporate Website',
+    name: 'David Miller',
+    email: 'david@aetherbuild.com',
+    message: 'I want a modern contractor website for $10 with the $15/mo hosting plan.',
+    projectType: 'Local Services & Contractor',
   });
 
   assert.equal(valid.isValid, true);

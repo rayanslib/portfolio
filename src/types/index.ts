@@ -1,4 +1,4 @@
-export type ProjectCategory = 'all' | 'ecommerce' | 'saas' | 'editorial' | 'webapp';
+export type ProjectCategory = 'all' | 'business' | 'portfolio' | 'landing' | 'services';
 
 export interface ProjectMetric {
   label: string;
@@ -11,7 +11,6 @@ export interface ClientTestimonial {
   author: string;
   role: string;
   company: string;
-  avatarUrl?: string;
 }
 
 export interface Project {
@@ -29,34 +28,24 @@ export interface Project {
   overview: string;
   challenge: string;
   solution: string;
-  liveUrlMock: string;
   featured: boolean;
   testimonial?: ClientTestimonial;
-  interactivePreviewType: 'furniture' | 'analytics' | 'editorial' | 'botanical' | 'fintech';
+  interactivePreviewType: 'contractor' | 'analytics' | 'editorial' | 'consulting';
 }
 
-export interface EstimatorFeature {
-  id: string;
-  label: string;
-  description: string;
-  price: number;
-  days: number;
-}
-
-export type ProjectTier = 'landing' | 'business' | 'ecommerce' | 'custom_app';
-
-export interface EstimatorState {
-  tier: ProjectTier;
-  features: string[];
-  timeline: 'rush' | 'standard' | 'flexible';
+export interface PricingState {
+  websiteType: 'landing' | 'business' | 'portfolio' | 'services';
+  hostingBilling: 'monthly' | 'yearly';
+  extraPages: number;
+  includeSeo: boolean;
+  includeContactForm: boolean;
 }
 
 export interface InquiryFormState {
   name: string;
   email: string;
+  xHandle?: string;
   company: string;
   projectType: string;
-  budget: string;
-  timeline: string;
   message: string;
 }
