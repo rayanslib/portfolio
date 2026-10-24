@@ -1,6 +1,7 @@
 import React from 'react';
 import { SERVICES_DATA } from '../data/portfolioData';
 import { Code, Compass, ShoppingBag, Zap, Check } from 'lucide-react';
+import { motion } from 'motion/react';
 
 export const ServicesSection: React.FC = () => {
   const iconMap: Record<string, React.ReactNode> = {
@@ -13,8 +14,14 @@ export const ServicesSection: React.FC = () => {
   return (
     <section id="services" className="py-24 border-b border-neutral-900 scroll-mt-20">
       <div className="max-w-7xl mx-auto px-6 lg:px-8">
-        {/* Header */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-16">
+        {/* Header with Scroll Reveal */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: '-60px' }}
+          transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+          className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-16"
+        >
           <div>
             <div className="flex items-center gap-2 text-xs font-semibold text-neutral-400 mb-2.5 tracking-wider uppercase">
               <span className="text-amber-400">Capabilities & Scope</span>
@@ -28,26 +35,31 @@ export const ServicesSection: React.FC = () => {
           <p className="text-sm text-neutral-400 max-w-md">
             Every website is custom-architected from scratch. No clunky WordPress themes, slow page builders, or hidden technical debt.
           </p>
-        </div>
+        </motion.div>
 
-        {/* 4 Clean Editorial Service Cards */}
+        {/* 4 Clean Editorial Service Cards with Staggered Scroll Animations */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          {SERVICES_DATA.map((service) => (
-            <div
+          {SERVICES_DATA.map((service, index) => (
+            <motion.div
               key={service.number}
-              className="p-8 rounded-2xl bg-neutral-900/40 border border-neutral-800 hover:border-neutral-700 transition-all duration-300 flex flex-col justify-between"
+              initial={{ opacity: 0, y: 32 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: '-50px' }}
+              transition={{ delay: index * 0.12, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+              whileHover={{ y: -6, transition: { duration: 0.25 } }}
+              className="p-8 rounded-2xl bg-neutral-900/40 border border-neutral-800 hover:border-amber-400/40 transition-colors flex flex-col justify-between group shadow-lg hover:shadow-amber-400/5 relative overflow-hidden"
             >
               <div>
                 <div className="flex items-center justify-between mb-4">
                   <span className="text-xs font-mono text-amber-400 font-semibold tracking-wider">
                     {service.number}. Service
                   </span>
-                  <div className="p-2 rounded-lg bg-neutral-900 border border-neutral-800">
+                  <div className="p-2.5 rounded-lg bg-neutral-900 border border-neutral-800 group-hover:border-amber-400/40 transition-colors">
                     {iconMap[service.number]}
                   </div>
                 </div>
 
-                <h3 className="text-xl font-display font-bold text-white mb-3">
+                <h3 className="text-xl font-display font-bold text-white mb-3 group-hover:text-amber-300 transition-colors">
                   {service.title}
                 </h3>
 
@@ -71,7 +83,7 @@ export const ServicesSection: React.FC = () => {
                 <span>Deliverable:</span>
                 <span className="font-medium text-neutral-200">{service.deliverable}</span>
               </div>
-            </div>
+            </motion.div>
           ))}
         </div>
       </div>

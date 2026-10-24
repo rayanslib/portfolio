@@ -1,6 +1,6 @@
 import React from 'react';
 import { Check, ShieldCheck, Zap, Code2, Sparkles, MessageCircle } from 'lucide-react';
-import { X_PROFILE_URL, X_HANDLE } from '../data/portfolioData';
+import { motion } from 'motion/react';
 
 export const TestimonialsSection: React.FC = () => {
   const pillars = [
@@ -29,8 +29,14 @@ export const TestimonialsSection: React.FC = () => {
   return (
     <section id="why-us" className="py-24 border-b border-neutral-900 scroll-mt-20">
       <div className="max-w-7xl mx-auto px-6 lg:px-8">
-        {/* Section Header */}
-        <div className="text-center max-w-2xl mx-auto mb-16">
+        {/* Section Header with Scroll Reveal */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: '-60px' }}
+          transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+          className="text-center max-w-2xl mx-auto mb-16"
+        >
           <div className="flex items-center justify-center gap-2 text-xs font-semibold text-neutral-400 mb-2.5 tracking-wider uppercase">
             <Sparkles className="w-3.5 h-3.5 text-amber-400" />
             <span>Honest & Simple Offer</span>
@@ -41,20 +47,25 @@ export const TestimonialsSection: React.FC = () => {
           <p className="text-sm text-neutral-400 leading-relaxed">
             High-quality design, modern performance, and transparent pricing. Just <strong className="text-white">$10</strong> for your website build, with optional hosting.
           </p>
-        </div>
+        </motion.div>
 
-        {/* 4 Clean Value Pillars */}
+        {/* 4 Clean Value Pillars with Staggered Scroll Entrance */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {pillars.map((pillar) => (
-            <div
+          {pillars.map((pillar, index) => (
+            <motion.div
               key={pillar.title}
-              className="p-6 rounded-2xl bg-neutral-900/40 border border-neutral-800 flex flex-col justify-between"
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: '-50px' }}
+              transition={{ delay: index * 0.1, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+              whileHover={{ y: -5, transition: { duration: 0.2 } }}
+              className="p-6 rounded-2xl bg-neutral-900/40 border border-neutral-800 hover:border-amber-400/30 transition-colors flex flex-col justify-between group shadow-lg"
             >
               <div>
-                <div className="w-10 h-10 rounded-xl bg-neutral-900 border border-neutral-800 flex items-center justify-center mb-4">
+                <div className="w-10 h-10 rounded-xl bg-neutral-900 border border-neutral-800 group-hover:border-amber-400/40 flex items-center justify-center mb-4 transition-colors">
                   {pillar.icon}
                 </div>
-                <h3 className="text-base font-bold text-white mb-2">
+                <h3 className="text-base font-bold text-white mb-2 group-hover:text-amber-300 transition-colors">
                   {pillar.title}
                 </h3>
                 <p className="text-xs text-neutral-400 leading-relaxed">
@@ -66,7 +77,7 @@ export const TestimonialsSection: React.FC = () => {
                 <Check className="w-3.5 h-3.5" />
                 <span>Included in your $10 build</span>
               </div>
-            </div>
+            </motion.div>
           ))}
         </div>
       </div>

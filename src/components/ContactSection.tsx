@@ -1,15 +1,31 @@
 import React from 'react';
 import { ArrowUpRight, CheckCircle2, Clock, ShieldCheck, Zap } from 'lucide-react';
+import { motion } from 'motion/react';
 import { X_PROFILE_URL, X_HANDLE } from '../data/portfolioData';
 
 export const ContactSection: React.FC = () => {
   return (
-    <section id="contact" className="py-24 border-b border-neutral-900 scroll-mt-20">
-      <div className="max-w-4xl mx-auto px-6 lg:px-8">
-        <div className="p-8 sm:p-12 rounded-3xl bg-neutral-900/60 border border-neutral-800 text-center relative overflow-hidden shadow-2xl">
-          {/* Subtle background glow */}
-          <div
-            className="absolute top-0 left-1/2 -translate-x-1/2 w-96 h-48 bg-amber-500/10 blur-[90px] rounded-full pointer-events-none"
+    <section id="contact" className="py-24 border-b border-neutral-900 scroll-mt-20 relative overflow-hidden">
+      <div className="max-w-4xl mx-auto px-6 lg:px-8 relative z-10">
+        <motion.div
+          initial={{ opacity: 0, y: 32, scale: 0.98 }}
+          whileInView={{ opacity: 1, y: 0, scale: 1 }}
+          viewport={{ once: true, margin: '-60px' }}
+          transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+          className="p-8 sm:p-12 rounded-3xl bg-neutral-900/60 border border-neutral-800 text-center relative overflow-hidden shadow-2xl backdrop-blur-sm"
+        >
+          {/* Subtle background glow with animation */}
+          <motion.div
+            animate={{
+              scale: [1, 1.2, 1],
+              opacity: [0.08, 0.16, 0.08],
+            }}
+            transition={{
+              duration: 6,
+              repeat: Infinity,
+              ease: 'easeInOut',
+            }}
+            className="absolute top-0 left-1/2 -translate-x-1/2 w-96 h-48 bg-amber-500 blur-[100px] rounded-full pointer-events-none"
             aria-hidden="true"
           />
 
@@ -28,12 +44,14 @@ export const ContactSection: React.FC = () => {
             I handle all website orders and questions directly through X messages. Fast answers, quick turnaround, and no email back-and-forth.
           </p>
 
-          {/* Big Primary Action: Direct Message on X */}
+          {/* Big Primary Action: Direct Message on X with Motion */}
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-10">
-            <a
+            <motion.a
               href={X_PROFILE_URL}
               target="_blank"
               rel="noopener noreferrer"
+              whileHover={{ scale: 1.03, y: -2 }}
+              whileTap={{ scale: 0.98 }}
               className="w-full sm:w-auto px-8 py-4 text-sm font-bold text-neutral-950 bg-amber-400 hover:bg-amber-300 rounded-xl transition-all flex items-center justify-center gap-2.5 shadow-xl shadow-amber-400/15 group cursor-pointer"
             >
               <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24" aria-hidden="true">
@@ -41,7 +59,7 @@ export const ContactSection: React.FC = () => {
               </svg>
               <span>Send Direct Message to {X_HANDLE}</span>
               <ArrowUpRight className="w-4 h-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-            </a>
+            </motion.a>
           </div>
 
           {/* Simple 3-Step DM Checklist */}
@@ -80,7 +98,7 @@ export const ContactSection: React.FC = () => {
               <span>$10 flat build · optional $15/mo hosting</span>
             </div>
           </div>
-        </div>
+        </motion.div>
       </div>
     </section>
   );
